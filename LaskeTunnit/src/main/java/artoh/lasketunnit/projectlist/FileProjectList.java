@@ -63,6 +63,8 @@ public class FileProjectList implements ProjectList {
     
     /**
      * Lataa luettelon tiedostosta
+     * 
+     * @return Onnistuiko
      */
     protected boolean load() {
         try {

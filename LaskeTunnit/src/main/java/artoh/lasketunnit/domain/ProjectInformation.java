@@ -7,8 +7,20 @@ package artoh.lasketunnit.domain;
  */
 public class ProjectInformation {
     
+    /**
+     * Projektin näytettävä nimi
+     */
     protected String name;
+    /**
+     * Projektin tallennusjärjestelmän (Storage) tunniste
+     */
     protected String storageId;
+    /**
+     * Projektin tallennusjärjestelmän tallennusta kuvaavat tarkemmat tiedot
+     * 
+     * Esimerkiksi tallennettaessa tiedostoon tiedoston polku, tietokantaan
+     * tietokantayhteyden tiedot jne.
+     */
     protected String storageInfo;
         
 
