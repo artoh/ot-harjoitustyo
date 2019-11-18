@@ -7,4 +7,5 @@ Päivä | Aika | Tehtävä
 11.11.2019 | 2.00 | Projektin alustava luokkakaavio
 11.11.2019 | 2.00 | FileProjectList ja testit
 13.11.2019 | 5.30 | domain ja md.storage -koodausta ja testejä
-Yhteensä | 8.30 | 
+18.11.2019 | 0.45 | JavaFX aloitus ja README päivitys
+Yhteensä | 9.15 | 

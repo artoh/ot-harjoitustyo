@@ -16,7 +16,7 @@ public class LaskeTunnitApplication extends Application {
     
     @Override
     public void start(Stage window) {
-        window.setTitle("Lasketunnit - UI not implementet!");
+        window.setTitle("Lasketunnit - UI not (yet) implemented!");
         window.show();                
     }
     

@@ -1,25 +1,56 @@
-# Ohjelmistotekniikka, harjoitustyö
+# LaskeTunnit
 
-## Tehtävät
+Sovelluksen avulla käyttäjä voi pitää (esimerkiksi Ohjemistotekniikan menetelmät -kurssilla vaadittua) työaikakirjanpitoa. 
 
-### Viikko1
+Sovellukseen on mahdollistaa toteuttaa tuki erilaisille tiedostomuodoille tai muille tallennusratkaisuille. Aluksi ohjelma tukee työaikakirjanpidon tallentamista markdown-muotoon.
 
-- [gitlog.txt](https://github.com/artoh/ot-harjoitustyo/blob/master/laskarit/viikko1/gitlog.txt)
-- [komentorivi.txt](https://github.com/artoh/ot-harjoitustyo/blob/master/laskarit/viikko1/komentorivi.txt)
-
-### Viikko 2
-
-- [testikattavuus](https://raw.githubusercontent.com/artoh/ot-harjoitustyo/master/laskarit/viikko2/testikattavuus.png)
-
-### Viikko3
-
-- [Luokkakaavio 1 (Monopoli)](https://github.com/artoh/ot-harjoitustyo/blob/master/laskarit/viikko3/Luokat1.svg)
-- [Luokkakaavio 2 (Monopoli)](https://github.com/artoh/ot-harjoitustyo/blob/master/laskarit/viikko3/Luokat2.svg)
-- [Sekvenssikaavio 3 (Kone)](https://github.com/artoh/ot-harjoitustyo/blob/master/laskarit/viikko3/Sekvenssi3.png)
-- [Sekvenssikaavio 4 (Matkakortti)](https://github.com/artoh/ot-harjoitustyo/blob/master/laskarit/viikko3/Sekvenssi4.png)
+**Sovelluksen käyttöliittymää ei ole vielä toteutettu!**
 
 
 ## Dokumentaatio
 
 - [Vaatimusmaarittely](dokumentointi/vaatimusmaarittely.md)
 - [Työaikakirjanpito](dokumentointi/tyoaikakirjanpito.md)
+
+
+## Komentorivitoiminnot
+
+### Ohjelman suorittaminen
+
+```
+mvn compile exec:java -Dexec.mainclass=artoh.lasketunnit.ui.LaskeTunnitApplication
+```
+
+### Testaus
+
+Testien suorittaminen
+```
+mvn test
+```
+
+Testikattavuusraportin luominen
+```
+mvn jacoco:report
+```
+Kattavuusraporttia voi tarkastella avaamalla selaimella tiedosto target/site/jacoco/index.html
+
+
+### JavaDoc
+JavaDoc generoidaan komennolla
+
+```
+mvn javadoc:javadoc
+```
+JavaDocia voi tarkastella avaamalla selaimella tiedosto target/site/apidocs/index.html
+
+### Checkstyle
+
+Tiedostoon [checkstyle.xml](https://github.com/artoh/ot-harjoitustyo/blob/master/LaskeTunnit/checkstyle.xml) määrittelemät tarkistukset suoritetaan komennolla
+
+```
+mvn jxr:jxr checkstyle:checkstyle
+```
+
+Mahdolliset virheilmoitukset selviävät avaamalla selaimella tiedosto target/site/checkstyle.html
+
+

@@ -45,6 +45,7 @@ public class MdTaskTest {
         assertEquals(0, task.getMinutes());
         assertTrue( task.getDescription().isEmpty()); 
         assertEquals( task.getDate(), LocalDate.now());
+        assertEquals( null, task.getProject());
     }
     
     
