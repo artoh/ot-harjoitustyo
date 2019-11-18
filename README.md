@@ -18,7 +18,7 @@ Sovellukseen on mahdollistaa toteuttaa tuki erilaisille tiedostomuodoille tai mu
 ### Ohjelman suorittaminen
 
 ```
-mvn compile exec:java -Dexec.mainclass=artoh.lasketunnit.ui.LaskeTunnitApplication
+mvn compile exec:java -Dexec.mainClass=artoh.lasketunnit.ui.LaskeTunnitApplication
 ```
 
 ### Testaus
