@@ -49,4 +49,8 @@ public abstract class AbstractTask implements Task {
         this.minutes = minutes;
     }    
     
+    @Override
+    public String getProjectName() {
+        return getProject().getName();
+    }
 }

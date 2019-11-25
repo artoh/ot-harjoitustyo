@@ -5,6 +5,11 @@
  */
 package artoh.lasketunnit.ui;
 
+import artoh.lasketunnit.md.storage.MdStorage;
+import artoh.lasketunnit.projectlist.FileProjectList;
+import artoh.lasketunnit.projectlist.ProjectList;
+import artoh.lasketunnit.service.TasksService;
+import artoh.lasketunnit.storage.Storages;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -14,13 +19,25 @@ import javafx.stage.Stage;
  */
 public class LaskeTunnitApplication extends Application {
     
+    
     @Override
     public void start(Stage window) {
-        window.setTitle("Lasketunnit - UI not (yet) implemented!");
-        window.show();                
+        
+        ProjectList projectList = new FileProjectList("lasketunnit.ini");
+        Storages storages = new Storages(projectList);
+        storages.registerStorage(new MdStorage());
+        
+        TasksService service = new TasksService(storages);
+        service.refresh();
+        
+        MainWindow mainWindow = new MainWindow(service);
+        mainWindow.init(window);
+        
+
     }
     
-    public static void main(String[] args) {
+    public static void main(String[] args) {        
+               
         launch(LaskeTunnitApplication.class);
     }
 }

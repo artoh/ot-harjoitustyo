@@ -39,6 +39,17 @@ public class TasksService {
         }
     }
     
+    public List<Project> allProjects() {
+        return this.projects;
+    }
+    
+    public List<Task> allTasks() {
+        return this.tasks;
+    }
+    
+    public Storages getStorages() {
+        return storages;
+    }
     
     
 }

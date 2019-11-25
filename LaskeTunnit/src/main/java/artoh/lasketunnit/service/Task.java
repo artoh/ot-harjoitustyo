@@ -40,6 +40,13 @@ public interface Task {
     Project getProject();
     
     /**
+     * Projektin nimi
+     * 
+     * @return Projektin nimi
+     */
+    String getProjectName();
+    
+    /**
      * Asetaa tehtävän päiväyksen
      * @param date Päiväys
      */
