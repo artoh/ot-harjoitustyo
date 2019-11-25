@@ -5,8 +5,8 @@
  */
 package artoh.lasketunnit.md.storage;
 
-import artoh.lasketunnit.domain.AbstractTask;
-import artoh.lasketunnit.domain.Project;
+import artoh.lasketunnit.service.AbstractTask;
+import artoh.lasketunnit.service.Project;
 import java.util.Date;
 
 

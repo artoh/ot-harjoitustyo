@@ -5,6 +5,9 @@
  */
 package artoh.lasketunnit.domain;
 
+import artoh.lasketunnit.service.ProjectInformation;
+import artoh.lasketunnit.service.AbstractProject;
+import artoh.lasketunnit.service.Task;
 import artoh.lasketunnit.md.storage.MdProject;
 import org.junit.After;
 import org.junit.AfterClass;

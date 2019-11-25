@@ -5,7 +5,7 @@
  */
 package artoh.lasketunnit.md.storage;
 
-import artoh.lasketunnit.domain.Task;
+import artoh.lasketunnit.service.Task;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileInputStream;

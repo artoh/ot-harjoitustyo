@@ -1,4 +1,4 @@
-package artoh.lasketunnit.domain;
+package artoh.lasketunnit.service;
 
 /**
  * Projektin tiedot

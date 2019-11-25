@@ -5,12 +5,12 @@
  */
 package artoh.lasketunnit.md.storage;
 
-import artoh.lasketunnit.domain.AbstractProject;
-import artoh.lasketunnit.domain.Task;
+import artoh.lasketunnit.service.AbstractProject;
+import artoh.lasketunnit.service.Task;
 import java.util.ArrayList;
 import java.util.List;
 
-import artoh.lasketunnit.domain.ProjectInformation;
+import artoh.lasketunnit.service.ProjectInformation;
 
 /**
  * Projektin tuntikirjanpidon tallentaminen markdown-tiedostoksi

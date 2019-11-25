@@ -5,8 +5,8 @@
  */
 package artoh.lasketunnit.md.storage;
 
-import artoh.lasketunnit.domain.ProjectInformation;
-import artoh.lasketunnit.domain.Task;
+import artoh.lasketunnit.service.ProjectInformation;
+import artoh.lasketunnit.service.Task;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;

@@ -1,7 +1,7 @@
 
 package artoh.lasketunnit.projectlist;
 
-import artoh.lasketunnit.domain.ProjectInformation;
+import artoh.lasketunnit.service.ProjectInformation;
 
 import java.util.List;
 
