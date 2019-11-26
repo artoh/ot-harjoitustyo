@@ -11,7 +11,7 @@ Sovellukseen on mahdollistaa toteuttaa tuki erilaisille tiedostomuodoille tai mu
 
 - [Vaatimusmaarittely](dokumentointi/vaatimusmaarittely.md)
 - [Arkkitehtuurikuvaus](dokumentointi/arkkitehtuuri.md)
-- [Työaikakirjanpito](dokumentointi/tyoaikakirjanpito.md)
+- [Työaikakirjanpito](dokumentointi/tuntikirjanpito.md)
 
 
 ## Komentorivitoiminnot
