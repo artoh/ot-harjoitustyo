@@ -3,7 +3,11 @@ package artoh.lasketunnit.service;
 import java.util.List;
 
 /**
- * Projektien storage-luokkien kantaluokka
+ * Projektin abstrakti kantaluokka
+ * 
+ * Tällä tasolla on toteutettu projektin kokonaiskeston laskeminen sekä
+ * projekti-informaation käsittely, jotka eivät riipu siitä, miten
+ * tieto tallennetaan
  * 
  * @author arto
  */

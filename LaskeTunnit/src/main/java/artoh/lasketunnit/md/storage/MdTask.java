@@ -10,6 +10,11 @@ import artoh.lasketunnit.service.Project;
 import java.util.Date;
 
 
+/**
+ * Yksittäinen tehtävä tallennettuna md-tiedostoon
+ * 
+ * @author arto
+ */
 public class MdTask extends AbstractTask {
 
     protected MdProject project;    

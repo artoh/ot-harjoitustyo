@@ -9,7 +9,9 @@ import java.time.LocalDate;
 import java.util.Date;
 
 /**
- * Tehtävien Storage-luokkien kantaluokka
+ * Tehtävien abstrakti kantaluokka
+ * 
+ * Tällä tasolla on toteutettu tehtävien tietojen ylläpitäminen.
  * 
  * @author arto
  */

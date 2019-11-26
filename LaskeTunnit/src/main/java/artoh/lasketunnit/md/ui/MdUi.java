@@ -13,7 +13,8 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 /**
- *
+ * Md-tiedoston käsittelyyn liittyvät käyttölittymätoiminnot
+ * * 
  * @author ahyvatti
  */
 public class MdUi implements StorageUi {
@@ -46,7 +47,7 @@ public class MdUi implements StorageUi {
     }
     private ProjectInformation getInformation(File file) {
         if (file == null || file.getName().isEmpty()) {
-            return new ProjectInformation();
+            return null;
         }
         
         TextInputDialog td = new TextInputDialog();
@@ -55,7 +56,7 @@ public class MdUi implements StorageUi {
         td.showAndWait();
         String name = td.getEditor().getText();
         
-        return new ProjectInformation(name,"md",file.getPath());            
+        return new ProjectInformation(name, "md", file.getPath());            
     }
     
 }

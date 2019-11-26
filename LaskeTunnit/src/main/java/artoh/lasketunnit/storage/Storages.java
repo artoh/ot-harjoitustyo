@@ -10,6 +10,7 @@ import java.util.List;
 /**
  * Tuntikirjanpitoja tallentavien taustajärjestelmien katalogi
  * 
+ * 
  * @author arto
  */
 public class Storages {
@@ -33,7 +34,7 @@ public class Storages {
         if (storage != null) {
             Project project = storage.loadProject(info);
             if (project != null) {
-                if ( projectList.addProject(info) == true) {
+                if (projectList.addProject(info) == true) {
                     return project;
                 }
             }
@@ -53,7 +54,7 @@ public class Storages {
         if (storage != null) {
             Project project = storage.createProject(info);
             if (project != null) {
-                if( projectList.addProject(info) == true) {
+                if (projectList.addProject(info) == true) {
                     return project;
                 }
             }
@@ -86,13 +87,13 @@ public class Storages {
     public List<Project> allProjects() {
         List<Project> list = new ArrayList<>();
         
-        for(ProjectInformation info : projectList.getProjects()) {
+        for (ProjectInformation info : projectList.getProjects()) {
             Storage storage = getStorage(info.getStorageId());
             if (storage != null) {
-               Project project = storage.loadProject(info);
-               if (project != null) {
-                   list.add(project);
-               }
+                Project project = storage.loadProject(info);
+                if (project != null) {
+                    list.add(project);
+                }
             }
         }
         return list;

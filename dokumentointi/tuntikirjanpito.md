@@ -9,4 +9,6 @@ Päivä | Aika | Tehtävä
 13.11.2019 | 5.30 | domain ja md.storage -koodausta ja testejä
 18.11.2019 | 0.45 | JavaFX aloitus ja README päivitys
 25.11.2019 | 4.15 | Storage ja TasksService koodaus, MainWindow aloitettu 
-Yhteensä | 13.30 | 
+26.11.2019 | 0.30 | Arkkitehtuurikuvaus
+26.11.2019 | 4.00 | Käyttöliittymän toteuttamista
+Yhteensä | 18.00 | 

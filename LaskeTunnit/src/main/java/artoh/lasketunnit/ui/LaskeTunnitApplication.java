@@ -16,7 +16,15 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 
 /**
- *
+ * Ohjelman pääluokka
+ * 
+ * Ohjelman käynnistyessä ohjelman eri komponentit otetaan käyttöön, ja
+ * sen jälkeen alustetaan ohjelman käyttöliittymä.
+ * 
+ * Kun ohjelmaan lisätään tallennuksen taustajärjestelmiä, rekisteröidään
+ * ne käytettäväksi registerCompnents()-metodissa.
+ * 
+ * 
  * @author arto
  */
 public class LaskeTunnitApplication extends Application {
@@ -26,6 +34,12 @@ public class LaskeTunnitApplication extends Application {
     ProjectMenuBuilder projectMenuBuilder;
     
     @Override
+    /**
+     * Ohjelman käynnistystoimet
+     * 
+     * Ottaa ohjelman eri komponentit käyttöön ja muodostaa käyttöliittymän
+     * 
+     */
     public void start(Stage window) {
         
         ProjectList projectList = new FileProjectList("lasketunnit.ini");
@@ -42,11 +56,24 @@ public class LaskeTunnitApplication extends Application {
 
     }
     
+    /**
+     * Rekisteröi tallennusjärjestelmät
+     * 
+     * Kun ohjelmaan lisätään uusi tallennusjärjestelmä, rekisteröidään
+     * se käyttöön tässä metodissa - muita muutoksia olemassa olevaan 
+     * ohjelmakoodiin ei tarvita.
+     */
     protected void registerComponents() {
         registerComponent(new MdStorage(), new MdUi());
         
     }
     
+    /**
+     * Rekisteröi tallennusjärjestelmän
+     * 
+     * @param storage Tiedostojen käsittelyn Storage-luokka
+     * @param ui Käyttöliittymätoimintojen StoragaUi-luokka 
+     */
     protected void registerComponent(Storage storage, StorageUi ui) {
         storages.registerStorage(storage);
         projectMenuBuilder.registerStorageUi(ui);

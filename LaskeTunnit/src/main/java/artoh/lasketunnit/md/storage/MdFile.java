@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package artoh.lasketunnit.md.storage;
 
 import artoh.lasketunnit.service.Task;
@@ -25,7 +21,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- *
+ * Md-tiedoston käsittely
+ * 
  * @author arto
  */
 public class MdFile {
@@ -37,6 +34,7 @@ public class MdFile {
     private String sumTitle;
     private String afterTable;
     private DateTimeFormatter dateFormat;   
+    private final Pattern taskLinePattern = Pattern.compile("^(\\d{1,2}[.]\\d{1,2}[.]\\d{4})\\s*[|]\\s*(\\d+[,.]?\\d*)\\s*[|]\\s*(.*)");
     
     public MdFile(MdProject project) {
         this.project = project;
@@ -54,9 +52,12 @@ public class MdFile {
     final static int ROWS = 1;    
     final static int AFTER = 2;           
     
-    
+    /**
+     * Lataa md-tiedoston
+     * @param filename
+     * @return Onnistuiko
+     */
     boolean load(String filename) {        
-        Pattern taskLinePattern = Pattern.compile("^(\\d{1,2}[.]\\d{1,2}[.]\\d{4})\\s*[|]\\s*(\\d+[,.]?\\d*)\\s*[|]\\s*(.*)");
            
         try {
             InputStream in = new FileInputStream(filename);
@@ -65,26 +66,7 @@ public class MdFile {
             String row = null;
             int status = BEFORE;                        
             while ((row = breader.readLine()) != null) {
-                if (status == BEFORE) {
-                    if (row.contains("|")) {
-                        tableHeader = row + "\n";
-                        status = ROWS;
-                    } else {
-                        beforeTable = beforeTable + row + "\n";
-                    }
-                } else if (status == ROWS && !row.startsWith("---")) {
-                    Matcher matcher = taskLinePattern.matcher(row);
-                    if (matcher.matches()) {
-                        loadRow(matcher.group(1), matcher.group(2), matcher.group(3));
-                    } else {
-                        if (row.contains("|")) {
-                            sumTitle = row.substring(0, row.indexOf("|") - 1);
-                        }
-                        status = AFTER;
-                    }                    
-                } else if (status == AFTER) {
-                    afterTable = afterTable + row + "\n";
-                }                                
+                status = loadRow(row, status);
             }
             breader.close();
         } catch (IOException e) {
@@ -93,9 +75,31 @@ public class MdFile {
         return true;        
     }
     
-    
+    int loadRow(String row, int status) {
+        if (status == BEFORE) {
+            if (row.contains("|")) {
+                tableHeader = row + "\n";
+                status = ROWS;
+            } else {
+                beforeTable = beforeTable + row + "\n";
+            }
+        } else if (status == ROWS && !row.startsWith("---")) {
+            Matcher matcher = taskLinePattern.matcher(row);
+            if (matcher.matches()) {
+                loadTaskRow(matcher.group(1), matcher.group(2), matcher.group(3));
+            } else {
+                if (row.contains("|")) {
+                    sumTitle = row.substring(0, row.indexOf("|") - 1);
+                }
+                status = AFTER;
+            }                    
+        } else if (status == AFTER) {
+            afterTable = afterTable + row + "\n";
+        }
+        return status;
+    }
    
-    void loadRow(String date, String time, String description) {            
+    void loadTaskRow(String date, String time, String description) {            
    
         LocalDate localdate = LocalDate.parse(date, dateFormat);
         int minutes = parseMinutes(time);
@@ -120,6 +124,11 @@ public class MdFile {
         }
     }
    
+    /**
+     * Tallettaa md-tiedoston
+     * @param filename
+     * @return Onnistuiko
+     */
     boolean save(String filename) {
         
         try {

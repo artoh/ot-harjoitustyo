@@ -14,6 +14,8 @@ import java.nio.file.Paths;
 
 /**
  *
+ *  Md-tiedostojen käsittelyn tarjoava komponentti
+ * 
  * @author arto
  */
 public class MdStorage implements Storage {
@@ -26,7 +28,7 @@ public class MdStorage implements Storage {
     @Override
     public Project createProject(ProjectInformation information) {
         MdProject project = new MdProject(information);
-        if (project.save()==false) {
+        if (project.save() == false) {
             return null;
         }
         return project;

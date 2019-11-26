@@ -38,17 +38,6 @@ public class ProjectInformation {
     }
     
     /**
-     * Luo epäkevon projekti-informaation
-     * 
-     * Tällä voidaan ilmoittaa, että projektin luominen epäonnistui
-     */
-    public ProjectInformation() {
-        this.name = new String();
-        this.storageId = new String();
-        this.storageInfo = new String();
-    }
-    
-    /**
      * Projektin nimi
      * 
      * @return Projektin näytettävä nimi
@@ -78,8 +67,4 @@ public class ProjectInformation {
     public String getStorageInfo() {
         return storageInfo;
     }        
-    
-    public boolean isValid() {
-        return !storageId.isEmpty();
-    }
 }

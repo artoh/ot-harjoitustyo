@@ -20,7 +20,8 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 /**
- *
+ * Ohjelman pääikkuna
+ * 
  * @author arto
  */
 public class MainWindow {
@@ -39,7 +40,11 @@ public class MainWindow {
     }
     
     
-    
+    /**
+     * Pääikkunan alustaminen
+     * 
+     * @param window 
+     */
     public void init(Stage window) {
         window.setTitle("LaskeTunnit");
         
@@ -51,7 +56,41 @@ public class MainWindow {
         window.setScene(scene);
         window.show();
     }
+        
+    /**
+     * Projektin lisääminen
+     * 
+     * StorageUi-käyttöliittymä kutsuu tätä funktiota, kun käyttäjä lisää olemassa olevan
+     * projektin seurattavaksi. Aiheuttaa käyttöliittymän päivittämisen. MainWindow välittää
+     * lisäämisen TasksService-luokalle.
+     * 
+     * @param information Projektia kuvaava informaatio
+     */
+    protected void addProject(ProjectInformation information) {
+        service.getStorages().addProject(information);
+        service.refresh();
+        data = FXCollections.observableArrayList(service.allTasks());
+        table.setItems(data);
+    }
+
+    /**
+     * Uuden projektin luominen
+     * 
+     * StorageUi-käyttöliittymä kutsuu tätä funktiota, kun käyttäjä lisää uuden projektin
+     * seurattavaksi. Käyttöliittymää ei päivitetä, koska uudessa projektissa ei vielä ole
+     * yhtään tehtävää.
+     * 
+     * @param information Projektia kuvaava informaatio
+     */
+    protected void createProject(ProjectInformation information) {
+        service.getStorages().createProject(information);
+        service.refresh();        
+    }
+
     
+    /**
+     * Taulukkonäkymän alustaminen
+     */
     protected void initTableView() {
         table = new TableView();
         data = FXCollections.observableArrayList(service.allTasks());
@@ -70,23 +109,15 @@ public class MainWindow {
         minutesColumn.setCellValueFactory(new PropertyValueFactory("minutes"));
         
         table.getColumns().setAll(projectColumn, dateColumn, descriptionColumn, minutesColumn);
-        table.setPlaceholder(new Label("Ole hyvä ja avaa tuntikirjanpidon Markdown-tiedosto\n"+
+        table.setPlaceholder(new Label("Ole hyvä ja avaa tuntikirjanpidon Markdown-tiedosto\n" +
                 "Valikosta Projekti > Avaa ja tuo > Markdown-tiedosto"));
     }
     
-    protected void addProject(ProjectInformation information) {
-        service.getStorages().addProject(information);
-        service.refresh();
-        data = FXCollections.observableArrayList(service.allTasks());
-        table.setItems(data);
-    }
-    
-    protected void createProject(ProjectInformation information) {
-        service.getStorages().createProject(information);
-        service.refresh();
-        // Ei tarvetta ladata dataa uudestaan, koska yhtään tehtävää ei lisätty
-    }
-    
+    /**
+     * Valikon alustaminen
+     * 
+     * @param stage 
+     */
     protected void initMenuBar(Stage stage) {
         menuBar = new MenuBar();
         menuBar.getMenus().add(projectMenuBuilder.build(stage, this));

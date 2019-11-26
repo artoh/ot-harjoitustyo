@@ -21,9 +21,9 @@ Apudialogeja tarvittaneen ainakin uuden projektin lisäämiselle.
 
 ## Perusversion tarjoama toiminnallisuus
 
-- Kun ohjelma käynnistyy, luetaan kaikkien projektien työaikakirjanpidot ja niistä muodostetaan käyttäjälle esitettävä yhteenveto
+- Kun ohjelma käynnistyy, luetaan kaikkien projektien työaikakirjanpidot ja niistä muodostetaan käyttäjälle esitettävä yhteenveto **tehty**
 - Käyttäjä voi tarkastella näkymää ajan mukaan tai tarkastella yksittäisen projektin kirjauksia
-- Käyttäjä voi lisätä projekteja (uusi työajanseuranta taikka olemassa olevan md-tiedoston tuominen)
+- Käyttäjä voi lisätä projekteja (uusi työajanseuranta taikka olemassa olevan md-tiedoston tuominen) **md-tiedostot tehty**
 
 - Käyttäjä tekee kirjauksen
   - syöttämällä päivämäärän, tunnit ja tehtävän tai
