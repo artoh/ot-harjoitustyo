@@ -33,6 +33,7 @@
             <configuration>
                 <excludes>
                     <exclude>artoh/lasketunnit/ui/**/*</exclude>
+                    <exclude>artoh/lasketunnit/**/ui/*</exclude>
                 </excludes>
             </configuration>
             <executions>
