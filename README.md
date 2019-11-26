@@ -1,6 +1,6 @@
 # LaskeTunnit
 
-Sovelluksen avulla käyttäjä voi pitää (esimerkiksi Ohjemistotekniikan menetelmät -kurssilla vaadittua) työaikakirjanpitoa. 
+Sovelluksen avulla käyttäjä voi pitää (esimerkiksi Ohjemistotekniikan menetelmät -kurssilla vaadittua) työaikakirjanpitoa.
 
 Sovellukseen on mahdollistaa toteuttaa tuki erilaisille tiedostomuodoille tai muille tallennusratkaisuille. Aluksi ohjelma tukee työaikakirjanpidon tallentamista markdown-muotoon.
 
@@ -10,6 +10,7 @@ Sovellukseen on mahdollistaa toteuttaa tuki erilaisille tiedostomuodoille tai mu
 ## Dokumentaatio
 
 - [Vaatimusmaarittely](dokumentointi/vaatimusmaarittely.md)
+- [Arkkitehtuurikuvaus](dokumentointi/arkkitehtuuri.md)
 - [Työaikakirjanpito](dokumentointi/tyoaikakirjanpito.md)
 
 
@@ -52,5 +53,3 @@ mvn jxr:jxr checkstyle:checkstyle
 ```
 
 Mahdolliset virheilmoitukset selviävät avaamalla selaimella tiedosto target/site/checkstyle.html
-
-
