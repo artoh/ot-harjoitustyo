@@ -19,22 +19,29 @@ import javafx.stage.Stage;
  */
 public class LaskeTunnitApplication extends Application {
     
+    Storages storages;
+    TasksService service;
     
     @Override
     public void start(Stage window) {
         
         ProjectList projectList = new FileProjectList("lasketunnit.ini");
-        Storages storages = new Storages(projectList);
-        storages.registerStorage(new MdStorage());
+        storages = new Storages(projectList);
+        registerComponents();
         
-        TasksService service = new TasksService(storages);
+        service = new TasksService(storages);
         service.refresh();
         
         MainWindow mainWindow = new MainWindow(service);
-        mainWindow.init(window);
-        
+        mainWindow.init(window);        
 
     }
+    
+    protected void registerComponents() {
+        storages.registerStorage(new MdStorage());
+        
+    }
+    
     
     public static void main(String[] args) {        
                

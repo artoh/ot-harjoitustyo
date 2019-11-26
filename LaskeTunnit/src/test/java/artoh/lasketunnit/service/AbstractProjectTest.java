@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package artoh.lasketunnit.domain;
+package artoh.lasketunnit.service;
 
 import artoh.lasketunnit.service.ProjectInformation;
 import artoh.lasketunnit.service.AbstractProject;

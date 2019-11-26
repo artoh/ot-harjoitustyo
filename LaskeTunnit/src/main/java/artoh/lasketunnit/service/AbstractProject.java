@@ -30,7 +30,7 @@ public abstract class AbstractProject implements Project {
         return this.projectinformation;
     }
     
-    protected void setProjectInformation(ProjectInformation projectinformation) {
+    void setProjectInformation(ProjectInformation projectinformation) {
         this.projectinformation = projectinformation;
     }
     
