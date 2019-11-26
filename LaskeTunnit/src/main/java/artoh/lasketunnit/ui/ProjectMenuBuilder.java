@@ -89,7 +89,7 @@ public class ProjectMenuBuilder {
         return addItem;
     }
     
-    private Menu menuItemCreate(StorageUi ui, Stage stage, MainWindow mainWindow) {
+    private MenuItem menuItemCreate(StorageUi ui, Stage stage, MainWindow mainWindow) {
         MenuItem createItem = new MenuItem(ui.storageName());
 
         EventHandler<ActionEvent> event = new EventHandler<ActionEvent>() {

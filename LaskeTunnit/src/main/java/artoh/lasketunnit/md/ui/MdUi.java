@@ -8,7 +8,9 @@ package artoh.lasketunnit.md.ui;
 import artoh.lasketunnit.service.ProjectInformation;
 import artoh.lasketunnit.ui.StorageUi;
 import java.io.File;
+import java.util.Optional;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.layout.Region;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -53,7 +55,11 @@ public class MdUi implements StorageUi {
         TextInputDialog td = new TextInputDialog();
         td.setTitle("LaskeTunnit");
         td.setHeaderText("Projektin nimi");
-        td.showAndWait();
+        td.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+        Optional<String> result = td.showAndWait();
+        if (!result.isPresent()) {
+            return null;
+        }
         String name = td.getEditor().getText();
         
         return new ProjectInformation(name, "md", file.getPath());            
