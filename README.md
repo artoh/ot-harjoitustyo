@@ -4,8 +4,6 @@ Sovelluksen avulla käyttäjä voi pitää (esimerkiksi Ohjemistotekniikan menet
 
 Sovellukseen on mahdollistaa toteuttaa tuki erilaisille tiedostomuodoille tai muille tallennusratkaisuille. Aluksi ohjelma tukee työaikakirjanpidon tallentamista markdown-muotoon.
 
-**Sovelluksen käyttöliittymää ei ole vielä toteutettu!**
-
 
 ## Dokumentaatio
 
