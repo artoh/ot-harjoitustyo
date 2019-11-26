@@ -5,11 +5,14 @@
  */
 package artoh.lasketunnit.ui;
 
+import artoh.lasketunnit.service.ProjectInformation;
 import artoh.lasketunnit.service.Task;
 import artoh.lasketunnit.service.TasksService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.control.MenuBar;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -23,12 +26,16 @@ import javafx.stage.Stage;
 public class MainWindow {
    
     private TasksService service;
+    private ProjectMenuBuilder projectMenuBuilder;
+    
     private TableView table;
     private ObservableList<Task> data;
+    private MenuBar menuBar;
     
     
-    public MainWindow(TasksService service) {
+    public MainWindow(TasksService service, ProjectMenuBuilder projectMenuBuilder) {
         this.service = service;
+        this.projectMenuBuilder = projectMenuBuilder;
     }
     
     
@@ -36,6 +43,16 @@ public class MainWindow {
     public void init(Stage window) {
         window.setTitle("LaskeTunnit");
         
+        initTableView();
+        initMenuBar(window);
+     
+        VBox vbox = new VBox(menuBar, table);
+        Scene scene = new Scene(vbox);
+        window.setScene(scene);
+        window.show();
+    }
+    
+    protected void initTableView() {
         table = new TableView();
         data = FXCollections.observableArrayList(service.allTasks());
         table.setItems(data);
@@ -53,11 +70,26 @@ public class MainWindow {
         minutesColumn.setCellValueFactory(new PropertyValueFactory("minutes"));
         
         table.getColumns().setAll(projectColumn, dateColumn, descriptionColumn, minutesColumn);
-     
-        VBox vbox = new VBox(table);
-        Scene scene = new Scene(vbox);
-        window.setScene(scene);
-        window.show();
+        table.setPlaceholder(new Label("Ole hyvä ja avaa tuntikirjanpidon Markdown-tiedosto\n"+
+                "Valikosta Projekti > Avaa ja tuo > Markdown-tiedosto"));
+    }
+    
+    protected void addProject(ProjectInformation information) {
+        service.getStorages().addProject(information);
+        service.refresh();
+        data = FXCollections.observableArrayList(service.allTasks());
+        table.setItems(data);
+    }
+    
+    protected void createProject(ProjectInformation information) {
+        service.getStorages().createProject(information);
+        service.refresh();
+        // Ei tarvetta ladata dataa uudestaan, koska yhtään tehtävää ei lisätty
+    }
+    
+    protected void initMenuBar(Stage stage) {
+        menuBar = new MenuBar();
+        menuBar.getMenus().add(projectMenuBuilder.build(stage, this));
     }
     
 }

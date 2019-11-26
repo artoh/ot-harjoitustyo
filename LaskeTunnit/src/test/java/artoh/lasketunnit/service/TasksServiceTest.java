@@ -83,21 +83,21 @@ public class TasksServiceTest {
     @Test
     public void noProjectsBeforeRefresh() {
         TasksService service = new TasksService(storages);        
-        assertEquals(0,service.projects.size());
+        assertEquals(0,service.allProjects().size());
     }
     
     @Test
     public void oneProjectInService() {
         TasksService service = new TasksService(storages);
         service.refresh();
-        assertEquals(1,service.projects.size());
+        assertEquals(1,service.allProjects().size());
     }
     
     @Test
     public void threeTasksInService() {
         TasksService service = new TasksService(storages);
         service.refresh();
-        assertEquals(3,service.tasks.size());
+        assertEquals(3,service.allTasks().size());
     }
     
     @Test

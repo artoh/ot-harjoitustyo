@@ -17,8 +17,8 @@ public class TasksService {
     
     private Storages storages;
     
-    List<Project> projects;
-    List<Task> tasks;
+    private List<Project> projects;
+    private List<Task> tasks;
     
     
     public TasksService(Storages storages) {

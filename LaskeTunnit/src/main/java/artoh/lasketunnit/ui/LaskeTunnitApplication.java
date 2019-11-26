@@ -6,9 +6,11 @@
 package artoh.lasketunnit.ui;
 
 import artoh.lasketunnit.md.storage.MdStorage;
+import artoh.lasketunnit.md.ui.MdUi;
 import artoh.lasketunnit.projectlist.FileProjectList;
 import artoh.lasketunnit.projectlist.ProjectList;
 import artoh.lasketunnit.service.TasksService;
+import artoh.lasketunnit.storage.Storage;
 import artoh.lasketunnit.storage.Storages;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -21,25 +23,33 @@ public class LaskeTunnitApplication extends Application {
     
     Storages storages;
     TasksService service;
+    ProjectMenuBuilder projectMenuBuilder;
     
     @Override
     public void start(Stage window) {
         
         ProjectList projectList = new FileProjectList("lasketunnit.ini");
         storages = new Storages(projectList);
+        projectMenuBuilder = new ProjectMenuBuilder();
+        
         registerComponents();
         
         service = new TasksService(storages);
         service.refresh();
         
-        MainWindow mainWindow = new MainWindow(service);
+        MainWindow mainWindow = new MainWindow(service, projectMenuBuilder);
         mainWindow.init(window);        
 
     }
     
     protected void registerComponents() {
-        storages.registerStorage(new MdStorage());
+        registerComponent(new MdStorage(), new MdUi());
         
+    }
+    
+    protected void registerComponent(Storage storage, StorageUi ui) {
+        storages.registerStorage(storage);
+        projectMenuBuilder.registerStorageUi(ui);
     }
     
     
