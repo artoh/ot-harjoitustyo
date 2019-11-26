@@ -11,4 +11,5 @@ Päivä | Aika | Tehtävä
 25.11.2019 | 4.15 | Storage ja TasksService koodaus, MainWindow aloitettu 
 26.11.2019 | 0.30 | Arkkitehtuurikuvaus
 26.11.2019 | 4.00 | Käyttöliittymän toteuttamista
-Yhteensä | 18.00 | 
+26.11.2019 | 0.30 | Testaamista ja siistimistä
+Yhteensä | 18.30 | 
