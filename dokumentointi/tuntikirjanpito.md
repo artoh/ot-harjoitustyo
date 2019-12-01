@@ -1,7 +1,9 @@
 # Työaikakirjanpito
 
+# Työaikakirjanpito
+
 Päivä | Aika | Tehtävä
-------|------|-----------
+----|-----|-----------------------
 05.11.2019 | 0.30 | Ideointi ja vaatimusmäärittelyn aloittaminen
 11.11.2019 | 0.30 | Projektin luominen ja tutustuminen JavaFX:ään
 11.11.2019 | 2.00 | Projektin alustava luokkakaavio
@@ -12,4 +14,6 @@ Päivä | Aika | Tehtävä
 26.11.2019 | 0.30 | Arkkitehtuurikuvaus
 26.11.2019 | 4.00 | Käyttöliittymän toteuttamista
 26.11.2019 | 0.30 | Testaamista ja siistimistä
-Yhteensä | 18.30 | 
+01.12.2019 | 2.00 | Tehtävädialogin aloitus
+Yhteensä | 22.00 | 
+

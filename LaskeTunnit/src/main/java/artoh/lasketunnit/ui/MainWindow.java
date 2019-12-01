@@ -10,12 +10,19 @@ import artoh.lasketunnit.service.Task;
 import artoh.lasketunnit.service.TasksService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -32,7 +39,7 @@ public class MainWindow {
     private TableView table;
     private ObservableList<Task> data;
     private MenuBar menuBar;
-    
+    private MenuItem addTaskMenuItem;
     
     public MainWindow(TasksService service, ProjectMenuBuilder projectMenuBuilder) {
         this.service = service;
@@ -68,9 +75,7 @@ public class MainWindow {
      */
     protected void addProject(ProjectInformation information) {
         service.getStorages().addProject(information);
-        service.refresh();
-        data = FXCollections.observableArrayList(service.allTasks());
-        table.setItems(data);
+        refresh();
     }
 
     /**
@@ -85,6 +90,13 @@ public class MainWindow {
     protected void createProject(ProjectInformation information) {
         service.getStorages().createProject(information);
         service.refresh();        
+    }
+    
+    protected void refresh() {
+        service.refresh();
+        data = FXCollections.observableArrayList(service.allTasks());
+        table.setItems(data);
+        // TODO: Enable/Disable Add task menu item
     }
 
     
@@ -121,6 +133,25 @@ public class MainWindow {
     protected void initMenuBar(Stage stage) {
         menuBar = new MenuBar();
         menuBar.getMenus().add(projectMenuBuilder.build(stage, this));
+        menuBar.getMenus().add(createTaskMenu());
     }
+    
+   protected Menu createTaskMenu() {
+       Menu taskMenu = new Menu("Tehtävä");
+       addTaskMenuItem = new MenuItem("Lisää...");
+       
+        EventHandler<ActionEvent> event = new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent t) {
+                if (TaskDialog.newTaskDialog(service)) {
+                    refresh();
+                }
+            }
+        };
+        addTaskMenuItem.setOnAction(event);
+        addTaskMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.N, KeyCombination.CONTROL_DOWN));
+        taskMenu.getItems().add(addTaskMenuItem);
+        return taskMenu;
+   }
     
 }

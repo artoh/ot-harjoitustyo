@@ -38,5 +38,10 @@ public abstract class AbstractProject implements Project {
         this.projectinformation = projectinformation;
     }
     
+    @Override
+    public String toString() {
+        return getName();
+    }
+    
     
 }
