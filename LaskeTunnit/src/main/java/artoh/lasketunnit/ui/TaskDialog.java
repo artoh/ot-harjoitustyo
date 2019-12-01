@@ -22,6 +22,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
+import javafx.scene.control.Spinner;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 
@@ -39,6 +40,7 @@ public class TaskDialog {
     private ComboBox projectCombo;
     private DatePicker datePicker;
     private TextField descriptionField;
+    private Spinner<Double> hourSpinner;
     
     private TaskDialog(TasksService service) {
         this.service = service;
@@ -68,7 +70,9 @@ public class TaskDialog {
         datePicker.setValue(LocalDate.now());
         Label descriptionLabel = new Label("Tehtävän kuvaus");
         descriptionField = new TextField();
-        Label durationLabel = new Label("Kesto");
+        Label durationLabel = new Label("Kesto tunteina");
+        hourSpinner = new Spinner<>(0.25,24,1,0.25);
+        hourSpinner.setEditable(true);
         
         GridPane grid = new GridPane();
         grid.add(projectLabel, 0, 0);
@@ -78,6 +82,7 @@ public class TaskDialog {
         grid.add(descriptionLabel, 0, 2);
         grid.add(descriptionField, 1, 2);
         grid.add(durationLabel, 0, 3);
+        grid.add(hourSpinner,1,3);
         dialog.getDialogPane().setContent(grid);
         
         ButtonType buttonTypeOk = new ButtonType("Ok", ButtonData.OK_DONE);
@@ -97,7 +102,9 @@ public class TaskDialog {
                } 
                task.setDate(datePicker.getValue());
                task.setDescription(descriptionField.getText());
+               task.setMinutes((int) (hourSpinner.getValue()*60));
                task.save();
+               return task;
            }
            return null;
         });
@@ -117,6 +124,8 @@ public class TaskDialog {
         dlg.task = task;
         dlg.projectCombo.setValue(task.getProject());
         dlg.descriptionField.setText(task.getDescription());
+        String hourString = "" + (task.getMinutes() / 60.0 );
+        dlg.hourSpinner.getEditor().setText(hourString);
         return dlg.exec();
     } 
     

@@ -2,6 +2,8 @@
 
 # Työaikakirjanpito
 
+# Työaikakirjanpito
+
 Päivä | Aika | Tehtävä
 ----|-----|-----------------------
 05.11.2019 | 0.30 | Ideointi ja vaatimusmäärittelyn aloittaminen
@@ -15,5 +17,7 @@ Päivä | Aika | Tehtävä
 26.11.2019 | 4.00 | Käyttöliittymän toteuttamista
 26.11.2019 | 0.30 | Testaamista ja siistimistä
 01.12.2019 | 2.00 | Tehtävädialogin aloitus
-Yhteensä | 22.00 | 
+01.12.2019 | 1.15 | Lisätty Spinner tehtävädialogiin
+Yhteensä | 23.45 | 
+
 
