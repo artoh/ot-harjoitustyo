@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import artoh.lasketunnit.service.ProjectInformation;
+import java.util.Collections;
 
 /**
  * Projektin tuntikirjanpidon tallentaminen markdown-tiedostoksi
@@ -30,10 +31,13 @@ public class MdProject extends AbstractProject {
     
     @Override
     public List<Task> allTasks() {                
-        ArrayList list = new ArrayList<>();
+        ArrayList<Task> list = new ArrayList<>();
         for (MdTask task : tasks) {
             list.add(task);
         }
+        Collections.sort(list, (t1, t2) -> {
+            return t1.getDate().compareTo(t2.getDate());
+        });
         return list;
     }
         

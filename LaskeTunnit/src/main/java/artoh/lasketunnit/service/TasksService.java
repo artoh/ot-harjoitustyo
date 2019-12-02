@@ -7,6 +7,7 @@ package artoh.lasketunnit.service;
 
 import artoh.lasketunnit.storage.Storages;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -60,12 +61,16 @@ public class TasksService {
     }
     
     /**
-     * Kaikkien projektien kaikki tehtävät
+     * Kaikkien projektien kaikki tehtävät käänteisessä aikajärjestyksessä
      * 
      * @return 
      */
     public List<Task> allTasks() {
-        return this.tasks;
+        List<Task> list = this.tasks;
+        Collections.sort(list, (i1, i2) -> {
+            return i2.getDate().compareTo(i1.getDate());
+        });
+        return list;
     }
     
     /**

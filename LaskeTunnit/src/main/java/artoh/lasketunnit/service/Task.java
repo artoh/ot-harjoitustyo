@@ -65,6 +65,18 @@ public interface Task {
     void setMinutes(int minutes);
     
     /**
+     * Palauttaa tehtävään käytetyn ajan näyttömuodossa
+     * @return Aika tunteina ja minuutteina
+     */
+    String getHourString();
+    
+    /**
+     * Palauttaa päivämäärän paikallisessa muodossa
+     * @return 
+     */
+    String getDateString();
+    
+    /**
      * Tallettaa tehtävän
      * @return Onnistuiko
      */

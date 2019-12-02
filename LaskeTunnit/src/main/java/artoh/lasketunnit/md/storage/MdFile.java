@@ -1,6 +1,7 @@
 
 package artoh.lasketunnit.md.storage;
 
+import artoh.lasketunnit.service.AbstractTask;
 import artoh.lasketunnit.service.Task;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -64,7 +65,8 @@ public class MdFile {
             Reader reader = new InputStreamReader(in, "UTF-8");
             BufferedReader breader = new BufferedReader(reader);
             String row = null;
-            int status = BEFORE;                        
+            int status = BEFORE;      
+            beforeTable = "";
             while ((row = breader.readLine()) != null) {
                 status = loadRow(row, status);
             }
@@ -161,7 +163,7 @@ public class MdFile {
         for (Task task : project.allTasks()) {            
             list.add(String.format("%s | %s | %s\n", 
                     task.getDate().format(dateFormat),
-                    hourString(task.getMinutes()),
+                    AbstractTask.hourString(task.getMinutes()),
                     task.getDescription()));
         }
         return list;
@@ -169,13 +171,8 @@ public class MdFile {
     
     private String sumrow() {
         return String.format("%s | %s | \n\n", 
-                sumTitle, hourString(project.sumMinutes()));
+                sumTitle, AbstractTask.hourString(project.sumMinutes()));
     }    
-
-    static public String hourString(int minutes) {
-        int hours = minutes / 60;
-        int extraMinutes = minutes % 60;
-        return String.format("%d.%02d", hours, extraMinutes);
-    }    
+   
     
 }

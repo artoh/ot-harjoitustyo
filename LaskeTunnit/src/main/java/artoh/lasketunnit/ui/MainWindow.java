@@ -9,6 +9,7 @@ import artoh.lasketunnit.service.ProjectInformation;
 import artoh.lasketunnit.service.Task;
 import artoh.lasketunnit.service.TasksService;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -23,6 +24,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -40,6 +42,7 @@ public class MainWindow {
     private ObservableList<Task> data;
     private MenuBar menuBar;
     private MenuItem addTaskMenuItem;
+    private MenuItem editTaskMenuItem;
     
     public MainWindow(TasksService service, ProjectMenuBuilder projectMenuBuilder) {
         this.service = service;
@@ -55,11 +58,14 @@ public class MainWindow {
     public void init(Stage window) {
         window.setTitle("LaskeTunnit");
         
-        initTableView();
         initMenuBar(window);
+        initTableView();
      
-        VBox vbox = new VBox(menuBar, table);
-        Scene scene = new Scene(vbox);
+        BorderPane pane = new BorderPane();
+        pane.setTop(menuBar);
+        pane.setCenter(table);
+        
+        Scene scene = new Scene(pane);
         window.setScene(scene);
         window.show();
     }
@@ -96,7 +102,17 @@ public class MainWindow {
         service.refresh();
         data = FXCollections.observableArrayList(service.allTasks());
         table.setItems(data);
-        // TODO: Enable/Disable Add task menu item
+        
+        if (service.allProjects().isEmpty()) {
+            addTaskMenuItem.setDisable(true);
+            table.setPlaceholder(new Label("Ole hyvä ja avaa tai luo uusi \n "+
+                "tuntikirjanpito Projekti-valikosta"));
+        } else {
+            addTaskMenuItem.setDisable(false);
+            table.setPlaceholder(new Label("Ole hyvä ja lisää ensimmäinen tehtävä\n" +
+                "painamalla Ctrl+N"));            
+        }
+        
     }
 
     
@@ -105,24 +121,31 @@ public class MainWindow {
      */
     protected void initTableView() {
         table = new TableView();
-        data = FXCollections.observableArrayList(service.allTasks());
-        table.setItems(data);
+        refresh();
         
         TableColumn projectColumn = new TableColumn("Projekti");
         projectColumn.setCellValueFactory(new PropertyValueFactory("projectName"));
         
         TableColumn dateColumn = new TableColumn("Päivämäärä");
-        dateColumn.setCellValueFactory(new PropertyValueFactory("date"));
+        dateColumn.setCellValueFactory(new PropertyValueFactory("dateString"));
         
         TableColumn descriptionColumn = new TableColumn("Kuvaus");
         descriptionColumn.setCellValueFactory(new PropertyValueFactory("description"));
         
         TableColumn minutesColumn = new TableColumn("Kesto");
-        minutesColumn.setCellValueFactory(new PropertyValueFactory("minutes"));
+        minutesColumn.setCellValueFactory(new PropertyValueFactory("hourString"));
         
         table.getColumns().setAll(projectColumn, dateColumn, descriptionColumn, minutesColumn);
-        table.setPlaceholder(new Label("Ole hyvä ja avaa tuntikirjanpidon Markdown-tiedosto\n" +
-                "Valikosta Projekti > Avaa ja tuo > Markdown-tiedosto"));
+        
+        table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+                
+        ObservableList selectedItems = table.getSelectionModel().getSelectedItems();
+        selectedItems.addListener(new ListChangeListener() {
+            @Override
+            public void onChanged(ListChangeListener.Change change) {
+                editTaskMenuItem.setDisable(selectedItems.isEmpty());
+            }                    
+        });
     }
     
     /**
@@ -140,7 +163,7 @@ public class MainWindow {
        Menu taskMenu = new Menu("Tehtävä");
        addTaskMenuItem = new MenuItem("Lisää...");
        
-        EventHandler<ActionEvent> event = new EventHandler<ActionEvent>() {
+        EventHandler<ActionEvent> addEvent = new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent t) {
                 if (TaskDialog.newTaskDialog(service)) {
@@ -148,9 +171,25 @@ public class MainWindow {
                 }
             }
         };
-        addTaskMenuItem.setOnAction(event);
+        addTaskMenuItem.setOnAction(addEvent);
         addTaskMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.N, KeyCombination.CONTROL_DOWN));
         taskMenu.getItems().add(addTaskMenuItem);
+        
+        editTaskMenuItem = new MenuItem("Muokkaa...");
+        EventHandler<ActionEvent> editEvent = new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent t) {
+                Task selectedTask = (Task) table.getSelectionModel().getSelectedItem();
+                if (selectedTask != null && TaskDialog.editTaskDialog(service, selectedTask) ) {
+                    refresh();
+                }
+            }
+        };
+        editTaskMenuItem.setOnAction(editEvent);
+        editTaskMenuItem.setDisable(true);
+        taskMenu.getItems().add(editTaskMenuItem);        
+        
+        
         return taskMenu;
    }
     

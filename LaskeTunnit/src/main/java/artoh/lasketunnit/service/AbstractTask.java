@@ -6,6 +6,7 @@
 package artoh.lasketunnit.service;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 /**
@@ -19,7 +20,12 @@ public abstract class AbstractTask implements Task {
     
     protected LocalDate date = LocalDate.now();
     protected String description = new String();
-    protected int minutes = 0;    
+    protected int minutes = 0;        
+    protected final DateTimeFormatter dateFormat;
+
+    public AbstractTask() {
+        this.dateFormat = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    }
     
     @Override
     public LocalDate getDate() {
@@ -55,4 +61,21 @@ public abstract class AbstractTask implements Task {
     public String getProjectName() {
         return getProject().getName();
     }
+    
+    @Override
+    public String getDateString() {
+        return getDate().format(dateFormat);
+    }
+    
+    @Override
+    public String getHourString() {
+        return hourString(getMinutes());
+    }
+    
+
+    static public String hourString(int minutes) {
+        int hours = minutes / 60;
+        int extraMinutes = minutes % 60;
+        return String.format("%d.%02d", hours, extraMinutes);
+    }       
 }
