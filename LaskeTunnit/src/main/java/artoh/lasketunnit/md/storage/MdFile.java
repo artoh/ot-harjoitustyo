@@ -21,7 +21,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Md-tiedoston käsittely
+ * Markdown-tiedoston käsittely
  *
  * @author arto
  */
@@ -77,7 +77,7 @@ public class MdFile {
         return true;
     }
 
-    int loadRowBefore(String row) {
+    private int loadRowBefore(String row) {
         if (row.contains("|")) {
             tableHeader = row + "\n";
             return ROWS;
@@ -87,7 +87,7 @@ public class MdFile {
         }
     }
 
-    int loadRow(String row, int status) {
+    private int loadRow(String row, int status) {
         if (status == BEFORE) {
             return loadRowBefore(row);
         } else if (status == ROWS && !row.startsWith("---")) {
@@ -106,7 +106,7 @@ public class MdFile {
         return status;
     }
 
-    void loadTaskRow(String date, String time, String description) {
+    private void loadTaskRow(String date, String time, String description) {
 
         LocalDate localdate = LocalDate.parse(date, dateFormat);
         int minutes = parseMinutes(time);
@@ -117,7 +117,7 @@ public class MdFile {
         task.setDescription(description);
     }
 
-    int parseMinutes(String txt) {
+    private int parseMinutes(String txt) {
         if (txt.contains(".")) {
             int hours = Integer.parseInt(txt.substring(0, txt.indexOf(".")));
             int minutes = Integer.parseInt(txt.substring(txt.indexOf(".") + 1));

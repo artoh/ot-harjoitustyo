@@ -72,6 +72,14 @@ public class ProjectMenuBuilder {
         return projectMenu;
     }
     
+    /**
+     * Avaa ja tuo -toiminto projektivalikossa
+     * 
+     * @param ui StorageUi, joka kuvaa taustajärjestelmän käyttöliittymäosia
+     * @param stage
+     * @param mainWindow
+     * @return Lisättävä valikon kohta
+     */
     private MenuItem menuItemAdd(StorageUi ui, Stage stage, MainWindow mainWindow) {
         MenuItem addItem = new MenuItem(ui.storageName());
 
@@ -88,6 +96,16 @@ public class ProjectMenuBuilder {
         addItem.setOnAction(event);    
         return addItem;
     }
+    
+    /**
+     * 
+     * Luo uusi -toiminto projektivalikossa
+     * 
+     * @param ui Storagen käyttöliittymäosuutta kuvaava olio
+     * @param stage
+     * @param mainWindow
+     * @return Luotu valikkokohta
+     */
     
     private MenuItem menuItemCreate(StorageUi ui, Stage stage, MainWindow mainWindow) {
         MenuItem createItem = new MenuItem(ui.storageName());

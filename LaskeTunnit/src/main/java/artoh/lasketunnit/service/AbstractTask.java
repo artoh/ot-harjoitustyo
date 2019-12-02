@@ -72,7 +72,12 @@ public abstract class AbstractTask implements Task {
         return hourString(getMinutes());
     }
     
-
+    /**
+     * Muuntaa minuutit tuntia.minuuttia-muotoon
+     * 
+     * @param minutes Minuutit
+     * @return Kesto tunteina ja minuutteina merkkijonona
+     */
     static public String hourString(int minutes) {
         int hours = minutes / 60;
         int extraMinutes = minutes % 60;

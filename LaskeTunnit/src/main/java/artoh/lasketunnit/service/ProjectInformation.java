@@ -3,6 +3,20 @@ package artoh.lasketunnit.service;
 /**
  * Projektin tiedot
  * 
+ * ProjectInformation ylläpitää projektin tallentamiseen ja lataamiseen 
+ * tarvittavia tietoja.
+ * 
+ * Jokaiselle projektille määritellään
+ * 1) Projektista käyttäjälle näytettävä nimi
+ * 2) Projektin tallennusjärjestelmän (storage) tunnus
+ * 3) Merkkijono, joka määrittelee projektin tallentamisen kyseisen taustajärjestelmän
+ * käyttämässä muodossa.
+ * 
+ * Tietorakenteen tarkoituksena on mahdollistaa erilaisten tallennusratkaisujen
+ * lisääminen ilman, että muuta koodia on tarpeen muuttaa; ja niin, että tuntikirjanpitoa
+ * voidaan käsitellä yhtenäisellä tavalla riippumatta siitä, että merkintöjä on tallennettu
+ * eri taustajärjestelmään ja eri tiedostoihin (tai muihin tallennusyksiköihin)
+ * 
  * @author arto
  */
 public class ProjectInformation {

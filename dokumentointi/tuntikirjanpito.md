@@ -19,7 +19,9 @@ Päivä | Aika | Tehtävä
 01.12.2019 | 2.00 | Tehtävädialogin aloitus
 01.12.2019 | 1.15 | Lisätty Spinner tehtävädialogiin
 02.12.2019 | 2.30 | Tehtävän muokkaaminen, projektinäkymä, testikattavuus 100%
-Yhteensä | 26.15 | 
+02.12.2019 | 0.45 | Koodin dokumentointi
+Yhteensä | 27.00 | 
+
 
 
 

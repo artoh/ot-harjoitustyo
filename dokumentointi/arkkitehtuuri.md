@@ -13,3 +13,16 @@
 ## Luokkakaavio
 
 ![Luokkakaavio](luokkakaavio.svg)
+
+## Toiminnallisuuksia
+
+# Uuden tehtävän lisääminen
+
+Kun käyttäjä valitsee valikosta Tehtävä > Lisää, etenee sovelluksen kontrollilogiikka seuraavasti:
+
+![Sekvenssikaavio](newtask.png)
+
+Funktio exec() näyttää dialogin ja odottaa, että käyttäjä täyttää sen.
+
+Kun tehtävä on lisätty, päivitetään käyttöliittymä.
+![Sekvenssikaavio](paivitys.png)

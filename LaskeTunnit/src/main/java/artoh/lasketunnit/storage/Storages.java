@@ -10,6 +10,8 @@ import java.util.List;
 /**
  * Tuntikirjanpitoja tallentavien taustajärjestelmien katalogi
  * 
+ * Taustajärjestelmät rekisteröidään tätä luokkaa käyttäen, ja tämä
+ * luokka pitää yllä taustajärjestelmien luetteloa.
  * 
  * @author arto
  */
@@ -99,12 +101,18 @@ public class Storages {
     /**
      * Rekisteröi tallennustaustajärjestelmän (Storagen)
      * 
-     * @param storage 
+     * @param storage Rekisteröitä Storage
      */
     public void registerStorage(Storage storage) {
         storages.add(storage);
     }
 
+    /**
+     * Palauttaa taustajärjestelmän (Storagen)
+     * 
+     * @param storageId Taustajärjestelmän tunniste
+     * @return Taustajärjestelmä
+     */
     Storage getStorage(String storageId) {
         for (Storage storage : storages) {
             if (storage.storageId().equals(storageId)) {

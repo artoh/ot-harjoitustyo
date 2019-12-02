@@ -34,6 +34,12 @@ public abstract class AbstractProject implements Project {
         return this.projectinformation;
     }
     
+    /**
+     * Asettaa projektiin liittyvän projekti-informaation (eli tiedon siitä, miten
+     * projekti tallennetaan) 
+     * 
+     * @param projectinformation Projektin informaatio
+     */
     protected void setProjectInformation(ProjectInformation projectinformation) {
         this.projectinformation = projectinformation;
     }

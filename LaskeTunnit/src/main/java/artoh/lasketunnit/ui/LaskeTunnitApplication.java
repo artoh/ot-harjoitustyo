@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package artoh.lasketunnit.ui;
 
 import artoh.lasketunnit.md.storage.MdStorage;
@@ -79,7 +74,15 @@ public class LaskeTunnitApplication extends Application {
         projectMenuBuilder.registerStorageUi(ui);
     }
     
-    
+    /**
+     * Ohjelman käynnistävä metodi
+     * 
+     * JavaFX-yhteensopivuuden takia ohjelmassa on erikseen Main-luokka
+     * ohjelman käynistämistä varten. Main-luokka kutsuu tätä
+     * metodia.
+     * 
+     * @param args 
+     */
     public static void main(String[] args) {        
                
         launch(LaskeTunnitApplication.class);

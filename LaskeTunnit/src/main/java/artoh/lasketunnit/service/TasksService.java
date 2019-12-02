@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package artoh.lasketunnit.service;
 
 import artoh.lasketunnit.storage.Storages;
@@ -12,10 +7,10 @@ import java.util.List;
 
 /**
  * Ohjelman toimintalogiikan käyttöliittymälle tarjoava service-luokka
- * 
+ *
  * Käyttöliittymä pääsee selaamaan tehtäviä kutsumalla ensin refresh()-funktiota,
- * joka päivittää tehtävät taustajärjestelmistä, ja sen jälkeen hakemalla tehtävät
- * allTasks()-funktiolla.
+ * joka päivittää tehtävät taustajärjestelmistä, ja sen jälkeen hakemalla 
+ * projektit allProjects()-funktiolla ja tehtävät allTasks()-funktiolla.
  * 
  * Uusien projektien käsittelyn käyttöliittymä tekee kuitenkin suoraan Storages-
  * luokan avulla, minkä on saatavissa getStorages()-metodilla

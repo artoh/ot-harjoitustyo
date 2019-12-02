@@ -32,6 +32,14 @@ import javafx.scene.layout.VBox;
 
 /**
  *
+ * Tehtävän luomisen ja muokkaamisen dialogi
+ * 
+ * Dialogi näytetään käyttämällä staattisia metodeja newTaskDialog() ja
+ * editTaskDialog().
+ * 
+ * Dialogi huolehtii muutosten tallentamisesta. Jos muutos onnistui, palautetaan
+ * true ja käyttöliittymä päivittää itsensä.
+ * 
  * @author ahyvatti
  */
 public class TaskDialog {
@@ -54,6 +62,13 @@ public class TaskDialog {
 
     }
 
+    /**
+     * Luo projektin valinnassa käytettävän ComboBoxin
+     * 
+     * ComboBox sisältää kaikki projektit.
+     * 
+     * @return ComboBox
+     */
     private ComboBox createProjectCombo() {
         ComboBox combo = new ComboBox(FXCollections.observableArrayList(projects));
         combo.setValue(projects.get(0));
@@ -79,6 +94,12 @@ public class TaskDialog {
         });
     }
 
+    /**
+     * Luo tehtävän pituuden valinnassa käytettävän komponentin, joka koostuu
+     * kahdesta spinneristä (tunnit ja minuutit) ja niitä selostavista labeleista.
+     * 
+     * @return 
+     */
     private HBox createSpinners() {
 
         hourSpinner = new Spinner<>(0, 24, 1, 1);
@@ -94,6 +115,9 @@ public class TaskDialog {
 
     }
 
+    /**
+     * Dialogin luominen
+     */
     private void createDialog() {
         dialog = new Dialog<>();
         if (task == null) {
@@ -129,8 +153,8 @@ public class TaskDialog {
         dialog.setResultConverter(dialogButton -> {
             if (dialogButton == buttonTypeOk) {
                 if (task != null && task.getProject() != (Project) projectCombo.getValue()) {
-                    // To change project, delete (old) task and create 
-                    // new one into the new project.
+                    // Jos projekti on vaihdettu, poistetaan vanha tehtävä ja
+                    // luodaan uusi
                     task.delete();
                     task = null;
                 }
@@ -153,11 +177,29 @@ public class TaskDialog {
         return dialog.showAndWait().isPresent();
     }
 
+    /**
+     * Uuden tehtävän luominen
+     * 
+     * Dialogi huolehtii luodun tehtävän tallentamisesta.
+     * 
+     * @param service TaskService
+     * @return Tosi, jos uusi tehtävä tallennettu. Tällöin käyttöliittymän pitää päivittää itsensä.
+     */
     public static boolean newTaskDialog(TasksService service) {
         TaskDialog dlg = new TaskDialog(service);
         return dlg.exec();
     }
 
+    /**
+     * Tehtävän muokkaaminen
+     * 
+     * Dialogi huolehtii muokatun tehtävän talletamisesta. Jos tehtävän projekti muuttuu, 
+     * poistetaan vanha tehtävä ja luodaan uusi,
+     * 
+     * @param service TasksService
+     * @param task Muokattava tehtävä
+     * @return Tosi, jos tehtävää muokattu. Tällöin käyttöliittymän pitää päivittää itsensä.
+     */
     public static boolean editTaskDialog(TasksService service, Task task) {
         TaskDialog dlg = new TaskDialog(service);
         dlg.task = task;

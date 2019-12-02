@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package artoh.lasketunnit.ui;
 
 import artoh.lasketunnit.service.Project;
@@ -33,6 +28,9 @@ import javafx.stage.Stage;
 /**
  * Ohjelman pääikkuna
  *
+ *  Pääikkunassa on kaksi vaihtoehtoista taulukkonäkymää (tehtävät ja 
+ * projektit) sekä valikot ohjelman toiminnoille.
+ * 
  * @author arto
  */
 public class MainWindow {
@@ -49,6 +47,13 @@ public class MainWindow {
     private MenuItem editTaskMenuItem;
     private BorderPane mainPane;
 
+    /**
+     * Pääikkunan luominen
+     * 
+     * @param service TasksService ohjelmalogiikkaan yhdistämiseen
+     * @param projectMenuBuilder Project-menun rakentaja, joka huolehtii yhteydestä
+     *  tallennustaustajärjestelmien (Storages) käyttöliittymäosuuksiin.
+     */
     public MainWindow(TasksService service, ProjectMenuBuilder projectMenuBuilder) {
         this.service = service;
         this.projectMenuBuilder = projectMenuBuilder;
@@ -104,6 +109,14 @@ public class MainWindow {
         service.refresh();
     }
 
+    /** Käyttöliittymän päivittäminen
+     * 
+     * Kutsutaan, kun projektit ja/tai tehtävät muuttuneet.
+     * Aiheuttaa TasksServicessä luetteloiden päivittämisen ja sen
+     * jälkeen sekä näkyvillä että piilossa olevien taulukkonäkymien
+     * päivittymisen.
+     * 
+     */    
     protected void refresh() {
         service.refresh();
         
@@ -125,7 +138,7 @@ public class MainWindow {
     }
 
     /**
-     * Taulukkonäkymän alustaminen
+     * Tehtävätaulukkonäkymän alustaminen
      */
     protected void initTaskTableView() {
         taskTable = new TableView();        
@@ -155,6 +168,9 @@ public class MainWindow {
         });
     }
     
+    /**
+     * Projektitaulukkonäkymän alustaminen
+     */
     protected void initProjectTableView() {
         projectTable = new TableView();
         
@@ -180,6 +196,14 @@ public class MainWindow {
         menuBar.getMenus().add(createViewMenu());
     }
 
+    /**
+     * Tehtävävalikon luominen
+     * 
+     * Tehtävävalikossa on valinnat uuden tehtävän lisäämiselle
+     * sekä olemassaolevan tehtävän muokkaamiselle.
+     * 
+     * @return Valikko
+     */
     protected Menu createTaskMenu() {
         Menu taskMenu = new Menu("Tehtävä");
         addTaskMenuItem = new MenuItem("Lisää...");
@@ -213,6 +237,14 @@ public class MainWindow {
         return taskMenu;
     }
 
+    /**
+     * Näkymä-valikon luominen
+     * 
+     * Näkymä-valikosta valitaan, näytetäänkö tehtävien vai projektien
+     * luettelo.
+     * 
+     * @return Valikko
+     */
     protected Menu createViewMenu() {
         Menu viewMenu = new Menu("Näkymä");
         CheckMenuItem viewTasksMenuItem = new CheckMenuItem("Tehtävät");

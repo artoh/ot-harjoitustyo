@@ -10,6 +10,11 @@ import artoh.lasketunnit.service.ProjectInformation;
  * Ohjelma mahdollistaa tuntikirjanpidon tallentamisen eri muodoissa.
  * Taustajärjestelmä abstraktoidaan Storage-rajapinnalla.
  * 
+ * Konkeettinen taustajärjestelmä (esimerkiksi markdown-tiedostoon tallentaminen)
+ * tehdään toteuttamalla tämän rajapinnan toteuttava luokka, joka rekisteröidään
+ * Storagesiin. Rekisteröiminen tehdään LaskeTunnitApplications-luokan
+ * registerComponents()-metodissa.
+ * 
  * @author arto
  */
 public interface Storage {
