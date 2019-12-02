@@ -23,6 +23,10 @@ mvn compile exec:java -Dexec.mainClass=artoh.lasketunnit.ui.LaskeTunnitApplicati
 ### Testaus
 
 Testien suorittaminen
+
+**Älä koskaan, missään tapauksessa, ikinä aja testejä root-oikeuksilla!!!**
+
+
 ```
 mvn test
 ```

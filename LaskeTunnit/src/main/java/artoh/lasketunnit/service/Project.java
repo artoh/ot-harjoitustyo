@@ -50,4 +50,11 @@ public interface Project {
      */
     Task createTask();
     
+    /**
+     * Projektiin käytetty yhteisaika merkkijonona
+     * 
+     * @return Projektin yhteisaika
+     */
+    String getSumHoursString();
+    
 }

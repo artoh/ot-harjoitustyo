@@ -11,10 +11,12 @@ import artoh.lasketunnit.md.storage.MdStorage;
 import artoh.lasketunnit.projectlist.FileProjectList;
 import artoh.lasketunnit.projectlist.ProjectList;
 import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.nio.file.Paths;
 import org.junit.After;
@@ -154,6 +156,35 @@ public class StoragesTest {
         icstorages.registerStorage(new MdStorage());
         assertNull(icstorages.createProject(new ProjectInformation("Test","md",NEWFILENAME)));
         
+    }
+    
+    @Test
+    public void createFailsWithIncorrectFilename() {        
+        assertNull(storages.createProject(new ProjectInformation("Test","md","/diipadaa/duu")));
+    }
+    
+    @Test
+    public void addFailsWithIncorrectList() {
+        ProjectList incorrect = new FileProjectList("/duupa/daa");
+        Storages icstorages = new Storages(incorrect);
+        icstorages.registerStorage(new MdStorage());
+        assertNull(icstorages.addProject(new ProjectInformation("Test","md",FILENAME)));
+    }
+ 
+    @Test
+    public void invalidStorageHasZeroProjects() throws FileNotFoundException, UnsupportedEncodingException, IOException {
+        final String listFileName = "/tmp/lasketunnitstoragelist.txt";
+        OutputStream out = new FileOutputStream(listFileName);
+        Writer writer = new OutputStreamWriter(out, "UTF-8");
+        BufferedWriter bwriter = new BufferedWriter(writer);
+        bwriter.write("Test");
+        bwriter.write("test");
+        bwriter.write("duupadaa");
+        bwriter.close();
+        
+        ProjectList projectList = new FileProjectList(listFileName);
+        Storages testStorages = new Storages(projectList);
+        assertEquals(0, testStorages.allProjects().size());
     }
     
 }

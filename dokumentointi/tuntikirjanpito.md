@@ -18,6 +18,8 @@ Päivä | Aika | Tehtävä
 26.11.2019 | 0.30 | Testaamista ja siistimistä
 01.12.2019 | 2.00 | Tehtävädialogin aloitus
 01.12.2019 | 1.15 | Lisätty Spinner tehtävädialogiin
-Yhteensä | 23.45 | 
+02.12.2019 | 2.30 | Tehtävän muokkaaminen, projektinäkymä, testikattavuus 100%
+Yhteensä | 26.15 | 
+
 
 

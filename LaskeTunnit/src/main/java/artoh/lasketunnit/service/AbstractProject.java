@@ -43,5 +43,10 @@ public abstract class AbstractProject implements Project {
         return getName();
     }
     
+    @Override
+    public String getSumHoursString() {
+        return AbstractTask.hourString(sumMinutes());
+    }
+    
     
 }

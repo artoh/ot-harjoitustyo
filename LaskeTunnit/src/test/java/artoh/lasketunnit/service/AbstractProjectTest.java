@@ -79,7 +79,24 @@ public class AbstractProjectTest {
         another.setMinutes(20);
         
         assertEquals(30, project.sumMinutes());
-    }
+    }        
     
+    @Test
+    public void sumStringWithTasks() {
+        AbstractProject project = new MdProject(testProject);
+        Task task = project.createTask();
+        task.setMinutes(50);
+        
+        Task another = project.createTask();
+        another.setMinutes(20);
+        
+        assertEquals("1.10", project.getSumHoursString());
+    }      
+    
+    @Test
+    public void toStringisName() {
+        AbstractProject project = new MdProject(testProject);
+        assertEquals("Test Project", project.toString());
+    }
 
 }

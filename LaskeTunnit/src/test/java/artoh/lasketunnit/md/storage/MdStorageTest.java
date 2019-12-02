@@ -120,5 +120,20 @@ public class MdStorageTest {
         assertFalse(storage.deleteProject(incorrect));        
     }
    
+    @Test
+    public void incorrectCreateFails() {
+        Storage storage = new MdStorage();
+        assertNull(storage.createProject(new ProjectInformation("Fail",
+                "md","/dippadappa/dippaduu")) );
+    }
+    
+    @Test
+    public void noRightsDeleteFails() {
+        // DON'T BE STUPID AND RUN AS ROOT !!!
+        Storage storage = new MdStorage();
+        ProjectInformation incorrect = new ProjectInformation("Host Name File","md",
+            "/etc/hostname");
+        assertFalse(storage.deleteProject(incorrect));        
+    }
     
 }

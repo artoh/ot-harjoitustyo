@@ -5,6 +5,7 @@
  */
 package artoh.lasketunnit.service;
 
+import artoh.lasketunnit.md.storage.MdProject;
 import artoh.lasketunnit.md.storage.MdTask;
 import java.time.LocalDate;
 import org.junit.After;
@@ -62,4 +63,25 @@ public class AbstractTaskTest {
         task.setMinutes(38);
         assertEquals(38, task.getMinutes());
     }  
+    
+    @Test
+    public void canReadProjectName() {        
+        MdProject project = new MdProject(new ProjectInformation("Test","md","/tmp/test"));
+        Task task = new MdTask(project);
+        assertEquals("Test", task.getProjectName());
+    }
+    
+    @Test
+    public void dateAsString() {
+        Task task = new MdTask(null);
+        task.setDate(LocalDate.of(2019,11,13));
+        assertEquals("13.11.2019", task.getDateString());
+    }
+    
+    @Test
+    public void hoursAsString() {
+        Task task = new MdTask(null);
+        task.setMinutes(125);
+        assertEquals("2.05", task.getHourString());
+    }
 }

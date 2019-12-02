@@ -90,10 +90,7 @@ public class Storages {
         for (ProjectInformation info : projectList.getProjects()) {
             Storage storage = getStorage(info.getStorageId());
             if (storage != null) {
-                Project project = storage.loadProject(info);
-                if (project != null) {
-                    list.add(project);
-                }
+                list.add(storage.loadProject(info));
             }
         }
         return list;

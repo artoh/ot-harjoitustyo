@@ -1,4 +1,3 @@
-
 package artoh.lasketunnit.md.storage;
 
 import artoh.lasketunnit.service.AbstractTask;
@@ -23,49 +22,50 @@ import java.util.regex.Pattern;
 
 /**
  * Md-tiedoston käsittely
- * 
+ *
  * @author arto
  */
 public class MdFile {
-    
+
     private MdProject project;
-    
+
     private String beforeTable;
     private String tableHeader;
     private String sumTitle;
     private String afterTable;
-    private DateTimeFormatter dateFormat;   
+    private DateTimeFormatter dateFormat;
     private final Pattern taskLinePattern = Pattern.compile("^(\\d{1,2}[.]\\d{1,2}[.]\\d{4})\\s*[|]\\s*(\\d+[,.]?\\d*)\\s*[|]\\s*(.*)");
-    
+
     public MdFile(MdProject project) {
         this.project = project;
-        
+
         this.beforeTable = "# Työaikakirjanpito\n\n";
         this.tableHeader = "Päivä | Tunnit | Tehtävät \n";
         this.sumTitle = "Yhteensä";
         this.afterTable = "";
-        
+
         this.dateFormat = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        
+
     }
 
     final static int BEFORE = 0;
-    final static int ROWS = 1;    
-    final static int AFTER = 2;           
-    
+    final static int ROWS = 1;
+    final static int AFTER = 2;
+
     /**
      * Lataa md-tiedoston
+     *
      * @param filename
      * @return Onnistuiko
      */
-    boolean load(String filename) {        
-           
+    boolean load(String filename) {
+
         try {
             InputStream in = new FileInputStream(filename);
             Reader reader = new InputStreamReader(in, "UTF-8");
             BufferedReader breader = new BufferedReader(reader);
             String row = null;
-            int status = BEFORE;      
+            int status = BEFORE;
             beforeTable = "";
             while ((row = breader.readLine()) != null) {
                 status = loadRow(row, status);
@@ -74,17 +74,22 @@ public class MdFile {
         } catch (IOException e) {
             return false;
         }
-        return true;        
+        return true;
     }
-    
+
+    int loadRowBefore(String row) {
+        if (row.contains("|")) {
+            tableHeader = row + "\n";
+            return ROWS;
+        } else {
+            beforeTable = beforeTable + row + "\n";
+            return BEFORE;
+        }
+    }
+
     int loadRow(String row, int status) {
         if (status == BEFORE) {
-            if (row.contains("|")) {
-                tableHeader = row + "\n";
-                status = ROWS;
-            } else {
-                beforeTable = beforeTable + row + "\n";
-            }
+            return loadRowBefore(row);
         } else if (status == ROWS && !row.startsWith("---")) {
             Matcher matcher = taskLinePattern.matcher(row);
             if (matcher.matches()) {
@@ -94,24 +99,24 @@ public class MdFile {
                     sumTitle = row.substring(0, row.indexOf("|") - 1);
                 }
                 status = AFTER;
-            }                    
+            }
         } else if (status == AFTER) {
             afterTable = afterTable + row + "\n";
         }
         return status;
     }
-   
-    void loadTaskRow(String date, String time, String description) {            
-   
+
+    void loadTaskRow(String date, String time, String description) {
+
         LocalDate localdate = LocalDate.parse(date, dateFormat);
         int minutes = parseMinutes(time);
-        
+
         Task task = project.createTask();
         task.setDate(localdate);
         task.setMinutes(minutes);
         task.setDescription(description);
     }
-    
+
     int parseMinutes(String txt) {
         if (txt.contains(".")) {
             int hours = Integer.parseInt(txt.substring(0, txt.indexOf(".")));
@@ -125,54 +130,53 @@ public class MdFile {
             return Integer.parseInt(txt) * 60;
         }
     }
-   
+
     /**
      * Tallettaa md-tiedoston
+     *
      * @param filename
      * @return Onnistuiko
      */
     boolean save(String filename) {
-        
+
         try {
             OutputStream out = new FileOutputStream(filename);
             Writer writer = new OutputStreamWriter(out, "UTF-8");
             BufferedWriter bwriter = new BufferedWriter(writer);
-                        
-            bwriter.write(this.beforeTable);            
-            bwriter.write(this.tableHeader);         
-            bwriter.write("----|-----|-----------------------\n");            
-            
+
+            bwriter.write(this.beforeTable);
+            bwriter.write(this.tableHeader);
+            bwriter.write("----|-----|-----------------------\n");
+
             for (String line : tasksToWrite()) {
-                bwriter.write(line);         
+                bwriter.write(line);
             }
-                        
+
             bwriter.write(sumrow());
-            bwriter.write(afterTable);            
+            bwriter.write(afterTable);
             bwriter.close();
-            
+
         } catch (IOException ex) {
             return false;
         }
-        
-        return true;    
+
+        return true;
     }
-    
-    
+
     private List<String> tasksToWrite() {
         List<String> list = new ArrayList<>();
-        for (Task task : project.allTasks()) {            
-            list.add(String.format("%s | %s | %s\n", 
+        for (Task task : project.allTasks()) {
+            list.add(String.format("%s | %s | %s\n",
                     task.getDate().format(dateFormat),
                     AbstractTask.hourString(task.getMinutes()),
                     task.getDescription()));
         }
         return list;
     }
-    
+
     private String sumrow() {
-        return String.format("%s | %s | \n\n", 
+        return String.format("%s | %s | \n\n",
                 sumTitle, AbstractTask.hourString(project.sumMinutes()));
-    }    
-   
-    
+    }
+
 }

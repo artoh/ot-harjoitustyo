@@ -106,10 +106,8 @@ public class MdFileTest {
         anothertask.setDate(LocalDate.of(2019, 11, 14));
         anothertask.setDescription("Another Test Description");
         anothertask.setMinutes(25);
-        
-        MdFile file = new MdFile(project);
-        assertTrue( file.save(correctInformation.getStorageInfo() ));
-        
+        anothertask.save();
+                
         String contents = new String(Files.readAllBytes(Paths.get(SAVEFILENAME)));
         assertTrue( contents.contains("13.11.2019 | 1.15 | Test Description"));
         assertTrue( contents.contains("14.11.2019 | 0.25 | Another Test Description"));
