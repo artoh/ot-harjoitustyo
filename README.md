@@ -1,6 +1,6 @@
 # LaskeTunnit
 
-Sovelluksen avulla käyttäjä voi pitää (esimerkiksi Ohjemistotekniikan menetelmät -kurssilla vaadittua) työaikakirjanpitoa.
+Sovelluksen avulla käyttäjä voi pitää (esimerkiksi Ohjemistotekniikka-kurssilla vaadittua) työaikakirjanpitoa.
 
 Sovellukseen on mahdollistaa toteuttaa tuki erilaisille tiedostomuodoille tai muille tallennusratkaisuille. Aluksi ohjelma tukee työaikakirjanpidon tallentamista markdown-muotoon.
 
