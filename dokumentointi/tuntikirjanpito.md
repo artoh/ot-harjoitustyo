@@ -1,9 +1,5 @@
 # Työaikakirjanpito
 
-# Työaikakirjanpito
-
-# Työaikakirjanpito
-
 Päivä | Aika | Tehtävä
 ----|-----|-----------------------
 05.11.2019 | 0.30 | Ideointi ja vaatimusmäärittelyn aloittaminen
@@ -19,7 +15,7 @@ Päivä | Aika | Tehtävä
 01.12.2019 | 2.00 | Tehtävädialogin aloitus
 01.12.2019 | 1.15 | Lisätty Spinner tehtävädialogiin
 02.12.2019 | 2.30 | Tehtävän muokkaaminen, projektinäkymä, testikattavuus 100%
-02.12.2019 | 0.45 | Koodin dokumentointi
+02.12.2019 | 0.45 | Koodin dokumentointi ja paketointi
 Yhteensä | 27.00 | 
 
 
