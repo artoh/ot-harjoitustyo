@@ -18,6 +18,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
+import java.nio.file.Files;
 import java.nio.file.Paths;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -126,6 +127,11 @@ public class StoragesTest {
     }
     
     @Test
+    public void canHideProject() {
+        assertTrue(storages.hideProject(new ProjectInformation("Test","md",FILENAME)));
+    }
+    
+    @Test
     public void zeroProjectsBeforeAdd() {
         assertEquals(0,storages.allProjects().size());
     }
@@ -187,4 +193,11 @@ public class StoragesTest {
         assertEquals(0, testStorages.allProjects().size());
     }
     
+    @Test
+    public void noExitsFilesHasZeroProjects() throws FileNotFoundException, UnsupportedEncodingException, IOException {
+        storages.addProject(new ProjectInformation("Test","md",FILENAME));
+        Files.delete(Paths.get(FILENAME));
+        assertEquals(0,storages.allProjects().size());
+    }
+       
 }

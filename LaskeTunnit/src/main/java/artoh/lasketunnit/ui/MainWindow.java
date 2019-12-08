@@ -13,11 +13,15 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -25,15 +29,16 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 /**
  * Ohjelman pääikkuna
  *
- *  Pääikkunassa on kaksi vaihtoehtoista taulukkonäkymää (tehtävät ja 
- * projektit) sekä valikot ohjelman toiminnoille.
- * 
+ * Pääikkunassa on kaksi vaihtoehtoista taulukkonäkymää (tehtävät ja projektit)
+ * sekä valikot ohjelman toiminnoille.
+ *
  * @author arto
  */
 public class MainWindow {
@@ -45,30 +50,33 @@ public class MainWindow {
     private TableView projectTable;
     private ObservableList<Task> taskData;
     private ObservableList<Project> projectData;
-    
+
     private MenuBar menuBar;
+    private MenuItem hideProjectMenuItem;
+    private MenuItem deleteProjectMenuItem;
     private MenuItem addTaskMenuItem;
     private MenuItem editTaskMenuItem;
     private CheckMenuItem viewTasksMenuItem;
     private CheckMenuItem viewProjectsMenuItem;
     private CheckMenuItem viewTasksOfProjectMenuItem;
-    
+
     private BorderPane mainPane;
-    
+
     private enum ViewMode {
         TASKS,
         PROJECTS,
         TASKSOFPROJECT
     }
-    
+
     private ViewMode currentViewMode = ViewMode.TASKS;
 
     /**
      * Pääikkunan luominen
-     * 
+     *
      * @param service TasksService ohjelmalogiikkaan yhdistämiseen
-     * @param projectMenuBuilder Project-menun rakentaja, joka huolehtii yhteydestä
-     *  tallennustaustajärjestelmien (Storages) käyttöliittymäosuuksiin.
+     * @param projectMenuBuilder Project-menun rakentaja, joka huolehtii
+     * yhteydestä tallennustaustajärjestelmien (Storages)
+     * käyttöliittymäosuuksiin.
      */
     public MainWindow(TasksService service, ProjectMenuBuilder projectMenuBuilder) {
         this.service = service;
@@ -87,11 +95,10 @@ public class MainWindow {
         initTaskTableView();
         initProjectTableView();
         refresh();
-        setViewMode(ViewMode.TASKS);
 
         mainPane = new BorderPane();
         mainPane.setTop(menuBar);
-        mainPane.setCenter(taskTable);
+        setViewMode(ViewMode.TASKS);
 
         Scene scene = new Scene(mainPane);
         window.setScene(scene);
@@ -126,18 +133,18 @@ public class MainWindow {
         service.refresh();
     }
 
-    /** Käyttöliittymän päivittäminen
-     * 
-     * Kutsutaan, kun projektit ja/tai tehtävät muuttuneet.
-     * Aiheuttaa TasksServicessä luetteloiden päivittämisen ja sen
-     * jälkeen sekä näkyvillä että piilossa olevien taulukkonäkymien
-     * päivittymisen.
-     * 
-     */    
+    /**
+     * Käyttöliittymän päivittäminen
+     *
+     * Kutsutaan, kun projektit ja/tai tehtävät muuttuneet. Aiheuttaa
+     * TasksServicessä luetteloiden päivittämisen ja sen jälkeen sekä näkyvillä
+     * että piilossa olevien taulukkonäkymien päivittymisen.
+     *
+     */
     protected void refresh() {
         service.refresh();
-                
-        switch(currentViewMode) {
+
+        switch (currentViewMode) {
             case TASKS:
                 refreshTaskView();
                 break;
@@ -146,17 +153,17 @@ public class MainWindow {
                 break;
             case TASKSOFPROJECT:
                 refreshTasksOfProjectView();
-                break;                
+                break;
         }
     }
-    
+
     /**
-     *  Päivittää tehtävänäkymän
+     * Päivittää tehtävänäkymän
      */
     protected void refreshTaskView() {
         taskData = FXCollections.observableArrayList(service.allTasks());
         taskTable.setItems(taskData);
-        
+
         if (service.allProjects().isEmpty()) {
             addTaskMenuItem.setDisable(true);
             taskTable.setPlaceholder(new Label("Ole hyvä ja avaa tai luo uusi \n "
@@ -167,20 +174,20 @@ public class MainWindow {
                     + "painamalla Ctrl+N"));
         }
     }
-    
+
     /**
      * Päivittää projektinäkymän
      */
     protected void refreshProjectView() {
         projectData = FXCollections.observableArrayList(service.allProjects());
-        projectTable.setItems(projectData);                        
+        projectTable.setItems(projectData);
     }
-    
+
     /**
      * Päivittää projektin tehtävät -näkymän
-     * 
+     *
      * Valitsee näytettäväksi vain nykyiseen projektiin kuuluvat tehtävät
-     * 
+     *
      */
     protected void refreshTasksOfProjectView() {
         Project currentProject = (Project) projectTable.getSelectionModel().getSelectedItem();
@@ -191,13 +198,12 @@ public class MainWindow {
         taskData = FXCollections.observableArrayList(taskList);
         taskTable.setItems(taskData);
     }
-    
 
     /**
      * Tehtävätaulukkonäkymän alustaminen
      */
     protected void initTaskTableView() {
-        taskTable = new TableView();        
+        taskTable = new TableView();
 
         TableColumn projectColumn = new TableColumn("Projekti");
         projectColumn.setCellValueFactory(new PropertyValueFactory("projectName"));
@@ -223,21 +229,29 @@ public class MainWindow {
             }
         });
     }
-    
+
     /**
      * Projektitaulukkonäkymän alustaminen
      */
     protected void initProjectTableView() {
         projectTable = new TableView();
-        
+
         TableColumn nameColumn = new TableColumn("Projektin nimi");
         nameColumn.setCellValueFactory(new PropertyValueFactory("name"));
-        
+
         TableColumn durationColumn = new TableColumn("Kesto yhteensä");
         durationColumn.setCellValueFactory(new PropertyValueFactory("sumHoursString"));
-        
+
         projectTable.getColumns().setAll(nameColumn, durationColumn);
         projectTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+
+        ObservableList selectedItems = projectTable.getSelectionModel().getSelectedItems();
+        selectedItems.addListener(new ListChangeListener() {
+            @Override
+            public void onChanged(ListChangeListener.Change change) {
+                viewTasksOfProjectMenuItem.setDisable(selectedItems.isEmpty());
+            }
+        });
     }
 
     /**
@@ -247,17 +261,87 @@ public class MainWindow {
      */
     protected void initMenuBar(Stage stage) {
         menuBar = new MenuBar();
-        menuBar.getMenus().add(projectMenuBuilder.build(stage, this));
+        menuBar.getMenus().add(createProjectMenu(stage));
         menuBar.getMenus().add(createTaskMenu());
         menuBar.getMenus().add(createViewMenu());
     }
 
     /**
+     * Piilottaa tai poistaa nykyisen projektin
+     * 
+     * @param remove 
+     */
+    protected void hideOrRemoveCurrentProject(boolean remove) {
+        Project project = (Project) projectTable.getSelectionModel().getSelectedItem();
+        Alert alert = new Alert(AlertType.CONFIRMATION, remove ? "Poistetaanko projektin tuntikirjanpito pysyvästi?" : "Poistetaanko projekti  seurannasta? Tuntikirjanpitoa ei poisteta.", ButtonType.YES, ButtonType.CANCEL);
+        alert.setHeaderText(project.getName());
+        alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+        alert.showAndWait();
+        if (alert.getResult() == ButtonType.YES) {
+            if (remove) {
+                service.getStorages().removeProject(project.getInformation());
+            } else {
+                service.getStorages().hideProject(project.getInformation());
+            }
+        }
+    }
+
+    /**
+     * Projektivalikon luominen
+     *
+     * Projektivalikossa on valinnat uusien projektien luomiseen
+     * (ProjectMenuBuilderilla) sekä nykyisen projektin piilottaminen ja
+     * poistaminen
+     *
+     * @param stage
+     * @return
+     */
+    protected Menu createProjectMenu(Stage stage) {
+        Menu projectMenu = projectMenuBuilder.build(stage, this);
+        projectMenu.getItems().add(new SeparatorMenuItem());
+
+        hideProjectMenuItem = new MenuItem("Poista seurannasta");
+        EventHandler<ActionEvent> hideEvent = new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent t) {
+                hideOrRemoveCurrentProject(false);
+            }
+        };
+        hideProjectMenuItem.setOnAction(hideEvent);
+
+        deleteProjectMenuItem = new MenuItem("Poista projektin kirjanpito");
+        EventHandler<ActionEvent> deleteEvent = new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent t) {
+                hideOrRemoveCurrentProject(true);
+            }
+        };
+        deleteProjectMenuItem.setOnAction(deleteEvent);
+
+        MenuItem exitMenuItem = new MenuItem("Lopeta");
+        exitMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.Q, KeyCombination.CONTROL_DOWN));
+        EventHandler<ActionEvent> exitEvent = new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent t) {
+                System.exit(0);
+            }
+        };
+        exitMenuItem.setOnAction(exitEvent);
+
+        projectMenu.getItems().add(hideProjectMenuItem);
+        projectMenu.getItems().add(deleteProjectMenuItem);
+        projectMenu.getItems().add(new SeparatorMenuItem());
+        projectMenu.getItems().add(exitMenuItem);
+
+        return projectMenu;
+    }
+
+    /**
      * Tehtävävalikon luominen
-     * 
-     * Tehtävävalikossa on valinnat uuden tehtävän lisäämiselle
-     * sekä olemassaolevan tehtävän muokkaamiselle.
-     * 
+     *
+     * Tehtävävalikossa on valinnat uuden tehtävän lisäämiselle sekä
+     * olemassaolevan tehtävän muokkaamiselle.
+     *
      * @return Valikko
      */
     protected Menu createTaskMenu() {
@@ -287,50 +371,51 @@ public class MainWindow {
             }
         };
         editTaskMenuItem.setOnAction(editEvent);
+        editTaskMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.E, KeyCombination.CONTROL_DOWN));
         editTaskMenuItem.setDisable(true);
         taskMenu.getItems().add(editTaskMenuItem);
 
         return taskMenu;
     }
-    
-    
+
     /**
      * Näkymän valitseminen
-     * 
-     * Päivittää pääikkunan näkymän mukaiseksi sekä päivittää
-     * muutokset valikkoon
-     * 
+     *
+     * Päivittää pääikkunan näkymän mukaiseksi sekä päivittää muutokset
+     * valikkoon
+     *
      * @param viewMode Valittu näkymä
      */
     protected void setViewMode(ViewMode viewMode) {
         currentViewMode = viewMode;
-        
+
         viewTasksMenuItem.setSelected(viewMode == ViewMode.TASKS);
         viewProjectsMenuItem.setSelected(viewMode == ViewMode.PROJECTS);
-        viewTasksOfProjectMenuItem.setSelected(viewMode==ViewMode.TASKSOFPROJECT);
-        
-        if (viewMode ==  ViewMode.PROJECTS) {
-            mainPane.setCenter(projectTable);            
-            editTaskMenuItem.setDisable(true);            
+        viewTasksOfProjectMenuItem.setSelected(viewMode == ViewMode.TASKSOFPROJECT);
+
+        if (viewMode == ViewMode.PROJECTS) {
+            mainPane.setCenter(projectTable);
+            editTaskMenuItem.setDisable(true);
+            viewTasksOfProjectMenuItem.setDisable(projectTable.getSelectionModel().getSelectedItems().isEmpty());
             refreshProjectView();
         } else {
             mainPane.setCenter(taskTable);
-            editTaskMenuItem.setDisable(taskTable.getSelectionModel().getSelectedItems().isEmpty());            
+            editTaskMenuItem.setDisable(taskTable.getSelectionModel().getSelectedItems().isEmpty());
+            viewTasksOfProjectMenuItem.setDisable(viewMode == ViewMode.TASKS);
             if (viewMode == ViewMode.TASKS) {
                 refreshTaskView();
             } else {
                 refreshTasksOfProjectView();
             }
-        }                
-            
+        }
+
     }
 
     /**
      * Näkymä-valikon luominen
-     * 
-     * Näkymä-valikosta valitaan, näytetäänkö tehtävien vai projektien
-     * luettelo.
-     * 
+     *
+     * Näkymä-valikosta valitaan, näytetäänkö tehtävien vai projektien luettelo.
+     *
      * @return Valikko
      */
     protected Menu createViewMenu() {
@@ -338,7 +423,7 @@ public class MainWindow {
         viewTasksMenuItem = new CheckMenuItem("Tehtävät");
         viewProjectsMenuItem = new CheckMenuItem("Projektit");
         viewTasksOfProjectMenuItem = new CheckMenuItem("Projektin tehtävät");
-        
+
         EventHandler<ActionEvent> viewTasksEvent = new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent t) {
@@ -346,7 +431,8 @@ public class MainWindow {
             }
         };
         viewTasksMenuItem.setOnAction(viewTasksEvent);
-        
+        viewTasksMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.DIGIT1, KeyCombination.CONTROL_DOWN));
+
         EventHandler<ActionEvent> viewProjectsEvent = new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent t) {
@@ -354,6 +440,7 @@ public class MainWindow {
             }
         };
         viewProjectsMenuItem.setOnAction(viewProjectsEvent);
+        viewProjectsMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.DIGIT2, KeyCombination.CONTROL_DOWN));
 
         EventHandler<ActionEvent> viewTasksOfProjectEvent = new EventHandler<ActionEvent>() {
             @Override
@@ -362,11 +449,12 @@ public class MainWindow {
             }
         };
         viewTasksOfProjectMenuItem.setOnAction(viewTasksOfProjectEvent);
-                
-        viewMenu.getItems().add(viewTasksMenuItem);        
+        viewTasksOfProjectMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.DIGIT3, KeyCombination.CONTROL_DOWN));
+
+        viewMenu.getItems().add(viewTasksMenuItem);
         viewMenu.getItems().add(viewProjectsMenuItem);
         viewMenu.getItems().add(viewTasksOfProjectMenuItem);
-       
+
         return viewMenu;
     }
 }

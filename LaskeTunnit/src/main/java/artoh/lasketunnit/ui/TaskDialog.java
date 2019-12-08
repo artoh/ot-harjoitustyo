@@ -14,6 +14,7 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
+import javafx.animation.AnimationTimer;
 import javafx.collections.FXCollections;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
@@ -25,6 +26,7 @@ import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -33,13 +35,13 @@ import javafx.scene.layout.VBox;
 /**
  *
  * Tehtävän luomisen ja muokkaamisen dialogi
- * 
+ *
  * Dialogi näytetään käyttämällä staattisia metodeja newTaskDialog() ja
  * editTaskDialog().
- * 
+ *
  * Dialogi huolehtii muutosten tallentamisesta. Jos muutos onnistui, palautetaan
  * true ja käyttöliittymä päivittää itsensä.
- * 
+ *
  * @author ahyvatti
  */
 public class TaskDialog {
@@ -55,6 +57,8 @@ public class TaskDialog {
     private Spinner<Integer> hourSpinner;
     private Spinner<Integer> minuteSpinner;
 
+    private ToggleButton playButton;
+
     private TaskDialog(TasksService service) {
         this.service = service;
         this.projects = service.allProjects();
@@ -64,9 +68,9 @@ public class TaskDialog {
 
     /**
      * Luo projektin valinnassa käytettävän ComboBoxin
-     * 
+     *
      * ComboBox sisältää kaikki projektit.
-     * 
+     *
      * @return ComboBox
      */
     private ComboBox createProjectCombo() {
@@ -96,13 +100,14 @@ public class TaskDialog {
 
     /**
      * Luo tehtävän pituuden valinnassa käytettävän komponentin, joka koostuu
-     * kahdesta spinneristä (tunnit ja minuutit) ja niitä selostavista labeleista.
-     * 
-     * @return 
+     * kahdesta spinneristä (tunnit ja minuutit) ja niitä selostavista
+     * labeleista.
+     *
+     * @return
      */
     private HBox createSpinners() {
 
-        hourSpinner = new Spinner<>(0, 24, 1, 1);
+        hourSpinner = new Spinner<>(0, 24, 0, 1);
         setSpinnerNumeric(hourSpinner);
         hourSpinner.setEditable(true);
         Label hourLabel = new Label("h ");
@@ -110,8 +115,9 @@ public class TaskDialog {
         setSpinnerNumeric(minuteSpinner);
         minuteSpinner.setEditable(true);
         Label minuteLabel = new Label("min");
+        playButton = new ToggleButton("Ota aikaa");
 
-        return new HBox(10, hourSpinner, hourLabel, minuteSpinner, minuteLabel);
+        return new HBox(10, hourSpinner, hourLabel, minuteSpinner, minuteLabel, playButton);
 
     }
 
@@ -173,17 +179,46 @@ public class TaskDialog {
         });
     }
 
+    /**
+     * Käynnistää ajastimen, joka mahdollistaa ajan ottamisen, sekä
+     * näyttää dialogin
+     * 
+     * 
+     * @return Onko dialogi hyväksytty
+     */
     private boolean exec() {
+        new AnimationTimer() {
+            long past = 0;
+
+            @Override
+            public void handle(long current) {
+                if (current - past < 60000000000l) {
+                    return;
+                }
+                past = current;
+                if (playButton.isSelected()) {
+                    int minutes = Integer.parseInt(minuteSpinner.getEditor().getText());
+                    int hours = Integer.parseInt(hourSpinner.getEditor().getText());
+                    if (minutes > 58) {
+                        minuteSpinner.getEditor().setText("0");
+                        hourSpinner.getEditor().setText("" + (hours + 1));
+                    } else {
+                        minuteSpinner.getEditor().setText("" + (minutes + 1));
+                    }
+                }
+            }
+        }.start();
         return dialog.showAndWait().isPresent();
     }
 
     /**
      * Uuden tehtävän luominen
-     * 
+     *
      * Dialogi huolehtii luodun tehtävän tallentamisesta.
-     * 
+     *
      * @param service TaskService
-     * @return Tosi, jos uusi tehtävä tallennettu. Tällöin käyttöliittymän pitää päivittää itsensä.
+     * @return Tosi, jos uusi tehtävä tallennettu. Tällöin käyttöliittymän pitää
+     * päivittää itsensä.
      */
     public static boolean newTaskDialog(TasksService service) {
         TaskDialog dlg = new TaskDialog(service);
@@ -192,13 +227,14 @@ public class TaskDialog {
 
     /**
      * Tehtävän muokkaaminen
-     * 
-     * Dialogi huolehtii muokatun tehtävän talletamisesta. Jos tehtävän projekti muuttuu, 
-     * poistetaan vanha tehtävä ja luodaan uusi,
-     * 
+     *
+     * Dialogi huolehtii muokatun tehtävän talletamisesta. Jos tehtävän projekti
+     * muuttuu, poistetaan vanha tehtävä ja luodaan uusi,
+     *
      * @param service TasksService
      * @param task Muokattava tehtävä
-     * @return Tosi, jos tehtävää muokattu. Tällöin käyttöliittymän pitää päivittää itsensä.
+     * @return Tosi, jos tehtävää muokattu. Tällöin käyttöliittymän pitää
+     * päivittää itsensä.
      */
     public static boolean editTaskDialog(TasksService service, Task task) {
         TaskDialog dlg = new TaskDialog(service);

@@ -34,7 +34,7 @@ public class MdFile {
     private String sumTitle;
     private String afterTable;
     private DateTimeFormatter dateFormat;
-    private final Pattern taskLinePattern = Pattern.compile("^(\\d{1,2}[.]\\d{1,2}[.]\\d{4})\\s*[|]\\s*(\\d+[,.]?\\d*)\\s*[|]\\s*(.*)");
+    private final Pattern taskLinePattern = Pattern.compile("^(\\d{2}[.]\\d{2}[.]\\d{4})\\s*[|]\\s*(\\d+[,.]?\\d*)\\s*[|]\\s*(.*)");
 
     public MdFile(MdProject project) {
         this.project = project;

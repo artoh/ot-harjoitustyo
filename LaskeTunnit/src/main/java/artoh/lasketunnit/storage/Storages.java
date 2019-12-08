@@ -36,7 +36,7 @@ public class Storages {
         if (storage != null) {
             Project project = storage.loadProject(info);
             if (project != null) {
-                if (projectList.addProject(info) == true) {
+                if (projectList.addProject(project.getInformation()) == true) {
                     return project;
                 }
             }
@@ -56,7 +56,7 @@ public class Storages {
         if (storage != null) {
             Project project = storage.createProject(info);
             if (project != null) {
-                if (projectList.addProject(info) == true) {
+                if (projectList.addProject(project.getInformation()) == true) {
                     return project;
                 }
             }
@@ -82,6 +82,17 @@ public class Storages {
     }
     
     /**
+     * Piilottaa projektin luettelosta. Projektin kirjanpitoa
+     * ei poisteta.
+     * 
+     * @param info Projektia kuvaava informaatio.
+     * @return 
+     */
+    public boolean hideProject(ProjectInformation info) {
+        return projectList.removeProject(info);
+    }
+    
+    /**
      * Listaa kaikki seurattavat projektit 
      * 
      * @return 
@@ -92,7 +103,10 @@ public class Storages {
         for (ProjectInformation info : projectList.getProjects()) {
             Storage storage = getStorage(info.getStorageId());
             if (storage != null) {
-                list.add(storage.loadProject(info));
+                Project project = storage.loadProject(info);
+                if (project != null) {
+                    list.add(storage.loadProject(project.getInformation()));
+                }
             }
         }
         return list;
