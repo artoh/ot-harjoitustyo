@@ -20,6 +20,9 @@ import java.util.logging.Logger;
 /**
  * Tuntikirjanpidot yhdeksi SQLite-tiedostoksi tallentava komponentti
  * 
+ * Tämä luokka vastaa projektien luomisesta ja poistamisesta, vastaavasti
+ * SQLiteProject vastaa tehtävien luomisesta ja poistamisesta. 
+ * 
  * @author arto
  */
 public class SqliteStorage implements Storage {
@@ -111,6 +114,14 @@ public class SqliteStorage implements Storage {
         }
     }
     
+    /**
+     * SQLite-yhteys
+     * 
+     * Koska suurin osa tietokantatoiminnoista on toteutettu SQLiteProject-luokassa, saavat saman
+     * paketin luokat tietokantayhteyden käyttöönsä tällä funktiolla.
+     * 
+     * @return Tietokantayhteys
+     */
     Connection getConnection() {
         return connection;
     }

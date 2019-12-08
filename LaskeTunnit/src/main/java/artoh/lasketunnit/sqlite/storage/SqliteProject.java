@@ -31,18 +31,18 @@ public class SqliteProject extends AbstractProject {
 
     @Override
     public List<Task> allTasks() {
-        List<Task> list= new ArrayList<>();
+        List<Task> list = new ArrayList<>();
         try {
             Statement stmt = storage.getConnection().createStatement();
-            String query = "SELECT Id, Date, Minutes, Description FROM Task WHERE Project=" + Integer.parseInt(getInformation().getStorageInfo()) +
-                    " ORDER BY Date DESC";
-            ResultSet rs = stmt.executeQuery(query);            
-            while (rs.next()) {                
+            String query = "SELECT Id, Date, Minutes, Description FROM Task WHERE Project=" + Integer.parseInt(getInformation().getStorageInfo())
+                    + " ORDER BY Date DESC";
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
                 list.add(new SqliteTask(this, rs.getInt(1), LocalDate.parse(rs.getString(2)), rs.getInt(3), rs.getString(4)));
-            }            
-        } catch (SQLException ex) {              
+            }
+        } catch (SQLException ex) {
         }
-        return list;        
+        return list;
     }
 
     @Override
@@ -64,33 +64,33 @@ public class SqliteProject extends AbstractProject {
             pstmt.setString(1, task.getDate().toString());
             pstmt.setInt(2, task.getMinutes());
             pstmt.setString(3, task.getDescription());
-            pstmt.setInt(4, Integer.parseInt(getInformation().getStorageInfo()) );
+            pstmt.setInt(4, Integer.parseInt(getInformation().getStorageInfo()));
             pstmt.execute();
-            ResultSet rs = pstmt.getGeneratedKeys();                
-            rs.next(); 
+            ResultSet rs = pstmt.getGeneratedKeys();
+            rs.next();
             task.setId(rs.getInt(1));
             return true;
-        } catch (SQLException ex) {            
+        } catch (SQLException ex) {
             // Return false when fails 
-        }        
+        }
         return false;
     }
-    
+
     private boolean updateTask(SqliteTask task) {
         try {
             PreparedStatement pstmt = storage.getConnection().prepareStatement("UPDATE Task SET Date=?, Minutes=?, Description=? WHERE Id=?");
             pstmt.setString(1, task.getDate().toString());
             pstmt.setInt(2, task.getMinutes());
             pstmt.setString(3, task.getDescription());
-            pstmt.setInt(4, task.getId() );
+            pstmt.setInt(4, task.getId());
             pstmt.execute();
             return true;
         } catch (SQLException ex) {
             // Return false when fails 
             return false;
-        }                
+        }
     }
-            
+
     boolean deleteTask(SqliteTask task) {
         try {
             Statement stmt = storage.getConnection().createStatement();
@@ -98,6 +98,6 @@ public class SqliteProject extends AbstractProject {
             return true;
         } catch (SQLException ex) {
             return false;
-        }        
+        }
     }
 }

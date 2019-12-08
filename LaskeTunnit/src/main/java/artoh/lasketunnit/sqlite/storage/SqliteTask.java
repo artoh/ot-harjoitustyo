@@ -11,6 +11,11 @@ import java.time.LocalDate;
 
 /**
  *
+ * Tehtävän tietojen käsittely SQLiten storagessa
+ * 
+ * Tietokantatoiminnot on toteutettu SqliteProject -luokassa, jota tämän 
+ * luokan funktiot kutsuvat. 
+ * 
  * @author arto
  */
 public class SqliteTask extends AbstractTask {
@@ -30,10 +35,18 @@ public class SqliteTask extends AbstractTask {
         this.setDescription(description);
     }
     
+    /**
+     * Asettaa tietokannan riviavaimena olevan id:n
+     * @param id 
+     */
     void setId(int id) {
         this.taskId = id;
     }
     
+    /**
+     * Palauttaa tietokannan riviavaimena olevan id:n tai 0, jos ei ole vielä tallennettu tietokantaan
+     * @return 
+     */
     int getId() {
         return taskId;
     }
