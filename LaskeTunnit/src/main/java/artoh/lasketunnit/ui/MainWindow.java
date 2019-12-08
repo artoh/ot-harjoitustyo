@@ -4,6 +4,9 @@ import artoh.lasketunnit.service.Project;
 import artoh.lasketunnit.service.ProjectInformation;
 import artoh.lasketunnit.service.Task;
 import artoh.lasketunnit.service.TasksService;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -42,10 +45,23 @@ public class MainWindow {
     private TableView projectTable;
     private ObservableList<Task> taskData;
     private ObservableList<Project> projectData;
+    
     private MenuBar menuBar;
     private MenuItem addTaskMenuItem;
     private MenuItem editTaskMenuItem;
+    private CheckMenuItem viewTasksMenuItem;
+    private CheckMenuItem viewProjectsMenuItem;
+    private CheckMenuItem viewTasksOfProjectMenuItem;
+    
     private BorderPane mainPane;
+    
+    private enum ViewMode {
+        TASKS,
+        PROJECTS,
+        TASKSOFPROJECT
+    }
+    
+    private ViewMode currentViewMode = ViewMode.TASKS;
 
     /**
      * Pääikkunan luominen
@@ -71,6 +87,7 @@ public class MainWindow {
         initTaskTableView();
         initProjectTableView();
         refresh();
+        setViewMode(ViewMode.TASKS);
 
         mainPane = new BorderPane();
         mainPane.setTop(menuBar);
@@ -119,13 +136,27 @@ public class MainWindow {
      */    
     protected void refresh() {
         service.refresh();
-        
+                
+        switch(currentViewMode) {
+            case TASKS:
+                refreshTaskView();
+                break;
+            case PROJECTS:
+                refreshProjectView();
+                break;
+            case TASKSOFPROJECT:
+                refreshTasksOfProjectView();
+                break;                
+        }
+    }
+    
+    /**
+     *  Päivittää tehtävänäkymän
+     */
+    protected void refreshTaskView() {
         taskData = FXCollections.observableArrayList(service.allTasks());
         taskTable.setItems(taskData);
         
-        projectData = FXCollections.observableArrayList(service.allProjects());
-        projectTable.setItems(projectData);                
-
         if (service.allProjects().isEmpty()) {
             addTaskMenuItem.setDisable(true);
             taskTable.setPlaceholder(new Label("Ole hyvä ja avaa tai luo uusi \n "
@@ -136,6 +167,31 @@ public class MainWindow {
                     + "painamalla Ctrl+N"));
         }
     }
+    
+    /**
+     * Päivittää projektinäkymän
+     */
+    protected void refreshProjectView() {
+        projectData = FXCollections.observableArrayList(service.allProjects());
+        projectTable.setItems(projectData);                        
+    }
+    
+    /**
+     * Päivittää projektin tehtävät -näkymän
+     * 
+     * Valitsee näytettäväksi vain nykyiseen projektiin kuuluvat tehtävät
+     * 
+     */
+    protected void refreshTasksOfProjectView() {
+        Project currentProject = (Project) projectTable.getSelectionModel().getSelectedItem();
+        List<Task> taskList = service.allTasks()
+                .stream()
+                .filter(t -> t.getProject() == currentProject)
+                .collect(Collectors.toCollection(ArrayList::new));
+        taskData = FXCollections.observableArrayList(taskList);
+        taskTable.setItems(taskData);
+    }
+    
 
     /**
      * Tehtävätaulukkonäkymän alustaminen
@@ -236,6 +292,38 @@ public class MainWindow {
 
         return taskMenu;
     }
+    
+    
+    /**
+     * Näkymän valitseminen
+     * 
+     * Päivittää pääikkunan näkymän mukaiseksi sekä päivittää
+     * muutokset valikkoon
+     * 
+     * @param viewMode Valittu näkymä
+     */
+    protected void setViewMode(ViewMode viewMode) {
+        currentViewMode = viewMode;
+        
+        viewTasksMenuItem.setSelected(viewMode == ViewMode.TASKS);
+        viewProjectsMenuItem.setSelected(viewMode == ViewMode.PROJECTS);
+        viewTasksOfProjectMenuItem.setSelected(viewMode==ViewMode.TASKSOFPROJECT);
+        
+        if (viewMode ==  ViewMode.PROJECTS) {
+            mainPane.setCenter(projectTable);            
+            editTaskMenuItem.setDisable(true);            
+            refreshProjectView();
+        } else {
+            mainPane.setCenter(taskTable);
+            editTaskMenuItem.setDisable(taskTable.getSelectionModel().getSelectedItems().isEmpty());            
+            if (viewMode == ViewMode.TASKS) {
+                refreshTaskView();
+            } else {
+                refreshTasksOfProjectView();
+            }
+        }                
+            
+    }
 
     /**
      * Näkymä-valikon luominen
@@ -247,16 +335,14 @@ public class MainWindow {
      */
     protected Menu createViewMenu() {
         Menu viewMenu = new Menu("Näkymä");
-        CheckMenuItem viewTasksMenuItem = new CheckMenuItem("Tehtävät");
-        CheckMenuItem viewProjectsMenuItem = new CheckMenuItem("Projektit");
+        viewTasksMenuItem = new CheckMenuItem("Tehtävät");
+        viewProjectsMenuItem = new CheckMenuItem("Projektit");
+        viewTasksOfProjectMenuItem = new CheckMenuItem("Projektin tehtävät");
         
         EventHandler<ActionEvent> viewTasksEvent = new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent t) {
-                mainPane.setCenter(taskTable);
-                viewTasksMenuItem.setSelected(true);
-                viewProjectsMenuItem.setSelected(false);
-                editTaskMenuItem.setDisable(taskTable.getSelectionModel().getSelectedItems().isEmpty());
+                setViewMode(ViewMode.TASKS);
             }
         };
         viewTasksMenuItem.setOnAction(viewTasksEvent);
@@ -264,17 +350,22 @@ public class MainWindow {
         EventHandler<ActionEvent> viewProjectsEvent = new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent t) {
-                mainPane.setCenter(projectTable);
-                viewTasksMenuItem.setSelected(false);
-                viewProjectsMenuItem.setSelected(true);
-                editTaskMenuItem.setDisable(true);
+                setViewMode(ViewMode.PROJECTS);
             }
         };
         viewProjectsMenuItem.setOnAction(viewProjectsEvent);
-        
-        viewMenu.getItems().add(viewTasksMenuItem);
-        viewTasksMenuItem.setSelected(true);
+
+        EventHandler<ActionEvent> viewTasksOfProjectEvent = new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent t) {
+                setViewMode(ViewMode.TASKSOFPROJECT);
+            }
+        };
+        viewTasksOfProjectMenuItem.setOnAction(viewTasksOfProjectEvent);
+                
+        viewMenu.getItems().add(viewTasksMenuItem);        
         viewMenu.getItems().add(viewProjectsMenuItem);
+        viewMenu.getItems().add(viewTasksOfProjectMenuItem);
        
         return viewMenu;
     }
