@@ -16,7 +16,16 @@ Päivä | Aika | Tehtävä
 01.12.2019 | 1.15 | Lisätty Spinner tehtävädialogiin
 02.12.2019 | 2.30 | Tehtävän muokkaaminen, projektinäkymä, testikattavuus 100%
 02.12.2019 | 0.45 | Koodin dokumentointi ja paketointi
-Yhteensä | 27.00 | 
+08.12.2019 | 0.45 | Projektin tehtävien näkymä
+08.12.2019 | 3.30 | SQLite storage ja yksikötestit
+08.12.2019 | 0.45 | Integraatiotestit SQLiten jälkeen
+08.12.2019 | 0.45 | Ajanotto dialogissa
+Yhteensä | 32.45 | 
+
+
+
+
+
 
 
 
