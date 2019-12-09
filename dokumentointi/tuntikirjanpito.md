@@ -23,7 +23,16 @@ Päivä | Aika | Tehtävä
 09.12.2019 | 0.30 | Käyttöliittymä SQLite-tallennukselle
 09.12.2019 | 0.30 | Käyttöohjeen kirjoittaminen
 09.12.2019 | 1.15 | Arkkitehtuuridokumentaation viimeistely
-Yhteensä | 35.00 | 
+09.12.2019 | 2.15 | Käyttöliittymän viimeistelyä
+Yhteensä | 37.15 | 
+
+
+
+
+
+
+
+
 
 
 

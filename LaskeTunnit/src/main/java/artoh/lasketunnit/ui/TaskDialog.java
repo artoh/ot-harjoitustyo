@@ -11,6 +11,7 @@ import artoh.lasketunnit.service.TasksService;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
@@ -48,7 +49,7 @@ public class TaskDialog {
 
     private Task task;
     private TasksService service;
-    private Dialog<Task> dialog;
+    private Dialog<Boolean> dialog;
     private List<Project> projects;
 
     private ComboBox projectCombo;
@@ -58,6 +59,7 @@ public class TaskDialog {
     private Spinner<Integer> minuteSpinner;
 
     private ToggleButton playButton;
+        
 
     private TaskDialog(TasksService service) {
         this.service = service;
@@ -157,7 +159,24 @@ public class TaskDialog {
         dialog.getDialogPane().getButtonTypes().add(buttonTypeOk);
 
         dialog.setResultConverter(dialogButton -> {
-            if (dialogButton == buttonTypeOk) {
+            if (dialogButton == buttonTypeOk) {                   
+                if (descriptionField.getText().isEmpty()) {
+                    dialog.setHeaderText("Kuvaus ei saa olla tyhjä");
+                    return new Boolean(false);
+                }
+                int minutes = Integer.parseInt(hourSpinner.getEditor().getText()) * 60
+                        + Integer.parseInt(minuteSpinner.getEditor().getText());
+                
+                if (minutes == 0) {
+                    dialog.setHeaderText("Tehtävän kesto ei saa olla 0");
+                    return new Boolean(false);
+                }
+                
+                if (minutes > 24 * 60) {
+                    dialog.setHeaderText("Tehtävän kesto ei saa ylittää 24 tuntia");
+                    return new Boolean(false);
+                }
+                
                 if (task != null && task.getProject() != (Project) projectCombo.getValue()) {
                     // Jos projekti on vaihdettu, poistetaan vanha tehtävä ja
                     // luodaan uusi
@@ -170,12 +189,12 @@ public class TaskDialog {
                 }
                 task.setDate(datePicker.getValue());
                 task.setDescription(descriptionField.getText());
-                task.setMinutes(Integer.parseInt(hourSpinner.getEditor().getText()) * 60
-                        + Integer.parseInt(minuteSpinner.getEditor().getText()));
-                task.save();
-                return task;
+                task.setMinutes(minutes);
+                task.save();                
+                return new Boolean(true);
+            } else {                        
+                return null;
             }
-            return null;
         });
     }
 
@@ -208,7 +227,15 @@ public class TaskDialog {
                 }
             }
         }.start();
-        return dialog.showAndWait().isPresent();
+        boolean success = true;
+        while (true) {
+            Optional<Boolean> dlgreturn = dialog.showAndWait();
+            if (!dlgreturn.isPresent()) {
+                return false;
+            } else if( dlgreturn.get()) {
+                return true;
+            }
+        }        
     }
 
     /**

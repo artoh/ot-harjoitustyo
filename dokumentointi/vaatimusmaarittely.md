@@ -35,7 +35,6 @@ Apudialogeja tarvittaneen ainakin uuden projektin lisäämiselle.
 
 - Käyttäjä voi korjata aiempia kirjauksia **tehty**
 
-- **Tekemättä**: Ohjelmassa on vielä joitain käytettävyyteen liittyviä puutteita / käyttöliittymän epäloogisuuksia
 
 ## Jatkokehitysideoita
 

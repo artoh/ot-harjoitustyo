@@ -60,6 +60,9 @@ public class MainWindow {
     private CheckMenuItem viewProjectsMenuItem;
     private CheckMenuItem viewTasksOfProjectMenuItem;
 
+    private Project selectedProject;
+    private Task selectedTask;
+
     private BorderPane mainPane;
 
     private enum ViewMode {
@@ -144,6 +147,10 @@ public class MainWindow {
     protected void refresh() {
         service.refresh();
 
+        if (selectedProject != null) {
+            updateSelectedProject();
+        }
+
         switch (currentViewMode) {
             case TASKS:
                 refreshTaskView();
@@ -154,6 +161,23 @@ public class MainWindow {
             case TASKSOFPROJECT:
                 refreshTasksOfProjectView();
                 break;
+        }
+    }
+
+    /**
+     * Päivittää valitun projektin
+     *
+     * Koska service.refresh hakee uuden projektilistauksen, ei valittua
+     * projektia löydy enää projektilistauksesta, ja valittu projekti pitää
+     * korvata uuden lista projektilla, jolla on sama ProjectInformation
+     *
+     */
+    private void updateSelectedProject() {
+        for (Project project : service.allProjects()) {
+            if (project.getInformation() == selectedProject.getInformation()) {
+                selectedProject = project;
+                break;
+            }
         }
     }
 
@@ -190,10 +214,9 @@ public class MainWindow {
      *
      */
     protected void refreshTasksOfProjectView() {
-        Project currentProject = (Project) projectTable.getSelectionModel().getSelectedItem();
         List<Task> taskList = service.allTasks()
                 .stream()
-                .filter(t -> t.getProject() == currentProject)
+                .filter(t -> t.getProject() == selectedProject)
                 .collect(Collectors.toCollection(ArrayList::new));
         taskData = FXCollections.observableArrayList(taskList);
         taskTable.setItems(taskData);
@@ -225,7 +248,7 @@ public class MainWindow {
         selectedItems.addListener(new ListChangeListener() {
             @Override
             public void onChanged(ListChangeListener.Change change) {
-                editTaskMenuItem.setDisable(selectedItems.isEmpty());
+                taskSelected((Task) selectedItems.get(0));
             }
         });
     }
@@ -249,9 +272,40 @@ public class MainWindow {
         selectedItems.addListener(new ListChangeListener() {
             @Override
             public void onChanged(ListChangeListener.Change change) {
-                viewTasksOfProjectMenuItem.setDisable(selectedItems.isEmpty());
+                projectSelected((Project) selectedItems.get(0));
             }
         });
+    }
+
+    /**
+     * Päivittää projektin valinnan
+     *
+     * @param project Valittu projekti tai null, jos ei valittu
+     */
+    protected void projectSelected(Project project) {
+        if (project == null && currentViewMode == ViewMode.TASKSOFPROJECT) {
+            // In TasksOfProject view current project stays as selected
+            return;
+        }
+        selectedProject = project;
+        viewTasksOfProjectMenuItem.setDisable(project == null);
+        hideProjectMenuItem.setDisable(project == null);
+        deleteProjectMenuItem.setDisable(project == null);
+    }
+
+    /**
+     * Päivittää tehtävän valinnan
+     *
+     * @param task Valittu tehtävä tai null, jos ei valittu
+     */
+    protected void taskSelected(Task task) {
+        selectedTask = task;
+        if (task == null) {
+            projectSelected(null);
+        } else {
+            projectSelected(task.getProject());
+        }
+        editTaskMenuItem.setDisable(task == null);
     }
 
     /**
@@ -268,11 +322,11 @@ public class MainWindow {
 
     /**
      * Piilottaa tai poistaa nykyisen projektin
-     * 
-     * @param remove 
+     *
+     * @param remove
      */
     protected void hideOrRemoveCurrentProject(boolean remove) {
-        Project project = (Project) projectTable.getSelectionModel().getSelectedItem();
+        Project project = selectedProject;
         Alert alert = new Alert(AlertType.CONFIRMATION, remove ? "Poistetaanko projektin tuntikirjanpito pysyvästi?" : "Poistetaanko projekti  seurannasta? Tuntikirjanpitoa ei poisteta.", ButtonType.YES, ButtonType.CANCEL);
         alert.setHeaderText(project.getName());
         alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
@@ -282,6 +336,9 @@ public class MainWindow {
                 service.getStorages().removeProject(project.getInformation());
             } else {
                 service.getStorages().hideProject(project.getInformation());
+            }
+            if (currentViewMode == ViewMode.TASKSOFPROJECT) {
+                setViewMode(ViewMode.TASKS);
             }
         }
     }
@@ -364,7 +421,6 @@ public class MainWindow {
         EventHandler<ActionEvent> editEvent = new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent t) {
-                Task selectedTask = (Task) taskTable.getSelectionModel().getSelectedItem();
                 if (selectedTask != null && TaskDialog.editTaskDialog(service, selectedTask)) {
                     refresh();
                 }
@@ -395,13 +451,12 @@ public class MainWindow {
 
         if (viewMode == ViewMode.PROJECTS) {
             mainPane.setCenter(projectTable);
-            editTaskMenuItem.setDisable(true);
-            viewTasksOfProjectMenuItem.setDisable(projectTable.getSelectionModel().getSelectedItems().isEmpty());
+            taskSelected(null);
+            projectSelected((Project) projectTable.getSelectionModel().getSelectedItem());
             refreshProjectView();
         } else {
             mainPane.setCenter(taskTable);
-            editTaskMenuItem.setDisable(taskTable.getSelectionModel().getSelectedItems().isEmpty());
-            viewTasksOfProjectMenuItem.setDisable(viewMode == ViewMode.TASKS);
+            taskSelected((Task) taskTable.getSelectionModel().getSelectedItem());
             if (viewMode == ViewMode.TASKS) {
                 refreshTaskView();
             } else {
