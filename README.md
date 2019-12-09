@@ -7,7 +7,8 @@ Sovellukseen on mahdollistaa toteuttaa tuki erilaisille tiedostomuodoille tai mu
 
 ## Dokumentaatio
 
-- [Vaatimusmaarittely](dokumentointi/vaatimusmaarittely.md)
+- [Käyttöohje](dokumentointi/kayttoohje/index.md)
+- [Vaatimusmäärittely](dokumentointi/vaatimusmaarittely.md)
 - [Arkkitehtuurikuvaus](dokumentointi/arkkitehtuuri.md)
 - [Työaikakirjanpito](dokumentointi/tuntikirjanpito.md)
 
@@ -24,7 +25,7 @@ mvn compile exec:java -Dexec.mainClass=artoh.lasketunnit.ui.LaskeTunnitApplicati
 
 Testien suorittaminen
 
-**Älä koskaan, missään tapauksessa, ikinä aja testejä root-oikeuksilla!!!**
+**Älä koskaan, missään tapauksessa, ikinä aja testejä root-oikeuksilla!!!** Osa testeistä käyttää /tmp-hakemistoa, ja ne on suunniteltu ajettavaksi Linux-järjestelmässä.
 
 
 ```

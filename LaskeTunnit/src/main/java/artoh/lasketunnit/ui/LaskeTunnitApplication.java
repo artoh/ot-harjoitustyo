@@ -5,6 +5,8 @@ import artoh.lasketunnit.md.ui.MdUi;
 import artoh.lasketunnit.projectlist.FileProjectList;
 import artoh.lasketunnit.projectlist.ProjectList;
 import artoh.lasketunnit.service.TasksService;
+import artoh.lasketunnit.sqlite.storage.SqliteStorage;
+import artoh.lasketunnit.sqlite.ui.SqliteUi;
 import artoh.lasketunnit.storage.Storage;
 import artoh.lasketunnit.storage.Storages;
 import javafx.application.Application;
@@ -60,6 +62,7 @@ public class LaskeTunnitApplication extends Application {
      */
     protected void registerComponents() {
         registerComponent(new MdStorage(), new MdUi());
+        registerComponent(new SqliteStorage("lasketunnit.sqlite"), new SqliteUi());
         
     }
     

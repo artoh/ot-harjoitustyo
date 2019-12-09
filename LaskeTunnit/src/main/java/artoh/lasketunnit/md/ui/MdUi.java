@@ -1,6 +1,7 @@
 package artoh.lasketunnit.md.ui;
 
 import artoh.lasketunnit.service.ProjectInformation;
+import artoh.lasketunnit.ui.ProjectNameDialog;
 import artoh.lasketunnit.ui.StorageUi;
 import java.io.File;
 import java.util.Optional;
@@ -47,15 +48,10 @@ public class MdUi implements StorageUi {
             return null;
         }
         
-        TextInputDialog td = new TextInputDialog();
-        td.setTitle("LaskeTunnit");
-        td.setHeaderText("Projektin nimi");
-        td.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
-        Optional<String> result = td.showAndWait();
-        if (!result.isPresent()) {
+        String name = ProjectNameDialog.getProjectName();
+        if (name == null) {
             return null;
         }
-        String name = td.getEditor().getText();
         
         return new ProjectInformation(name, "md", file.getPath());            
     }

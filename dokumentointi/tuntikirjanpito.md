@@ -20,7 +20,13 @@ Päivä | Aika | Tehtävä
 08.12.2019 | 3.30 | SQLite storage ja yksikötestit
 08.12.2019 | 0.45 | Integraatiotestit SQLiten jälkeen
 08.12.2019 | 0.45 | Ajanotto dialogissa
-Yhteensä | 32.45 | 
+09.12.2019 | 0.30 | Käyttöliittymä SQLite-tallennukselle
+09.12.2019 | 0.30 | Käyttöohjeen kirjoittaminen
+09.12.2019 | 1.15 | Arkkitehtuuridokumentaation viimeistely
+Yhteensä | 35.00 | 
+
+
+
 
 
 

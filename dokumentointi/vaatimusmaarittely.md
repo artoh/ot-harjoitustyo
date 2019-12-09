@@ -22,18 +22,24 @@ Apudialogeja tarvittaneen ainakin uuden projektin lisäämiselle.
 ## Perusversion tarjoama toiminnallisuus
 
 - Kun ohjelma käynnistyy, luetaan kaikkien projektien työaikakirjanpidot ja niistä muodostetaan käyttäjälle esitettävä yhteenveto **tehty**
-- Käyttäjä voi tarkastella näkymää ajan mukaan **tehty** tai tarkastella yksittäisen projektin kirjauksia
-- Käyttäjä voi lisätä projekteja (uusi työajanseuranta taikka olemassa olevan md-tiedoston tuominen) **md-tiedostot tehty**
+- Käyttäjä voi tarkastella näkymää ajan mukaan **tehty** tai tarkastella yksittäisen projektin kirjauksia **tehty**
+- Käyttäjä voi lisätä projekteja (uusi työajanseuranta taikka olemassa olevan md-tiedoston tuominen) **tehty**
+- Tuntikirjanpidon voi tallentaa
+  - markdown-tiedostoksi **tehty**
+  - SQLite-tietokantaan **tehty**
 
 - Käyttäjä tekee kirjauksen
   - syöttämällä päivämäärän, tunnit ja tehtävän tai **tehty**
-  - käyttämällä ajanottopainikkeita tai
-  - jatkamalla aiempaa tehtävää
+  - käyttämällä ajanottopainikkeita **tehty** tai
+  - jatkamalla (muokkaamalla) aiempaa tehtävää **tehty**
 
 - Käyttäjä voi korjata aiempia kirjauksia **tehty**
 
+- **Tekemättä**: Ohjelmassa on vielä joitain käytettävyyteen liittyviä puutteita / käyttöliittymän epäloogisuuksia
 
 ## Jatkokehitysideoita
 
 - vaihtoehtoisia tallennusbackendeja (csv, excel, Google Calendar API)
 - erilaiset ajankäytön raportit
+- mahdollisuus viedä projekti tallennusjärjestelmästä toiseen (esim. tuottaa tietokantaan tallennetusta projektista markdown-tiedosto)
+- integroitu git-asiakas, joka yhdistää committoimisen ja tehtävän kirjaamisen &#x263A

@@ -18,6 +18,10 @@ import java.util.List;
 
 /**
  *
+ * Projektin tietojen käsittely SQLiten storagessa
+ * 
+ * Tehtävien tietokantatoiminnot toteutetaan tässä luokassa.
+ * 
  * @author arto
  */
 public class SqliteProject extends AbstractProject {
@@ -50,6 +54,12 @@ public class SqliteProject extends AbstractProject {
         return new SqliteTask(this);
     }
 
+    /**
+     * Tallentaa tehtävän
+     * 
+     * @param task
+     * @return Onnistuiko
+     */
     boolean saveTask(SqliteTask task) {
         if (task.getId() == 0) {
             return insertTask(task);
@@ -58,6 +68,14 @@ public class SqliteProject extends AbstractProject {
         }
     }
 
+    /**
+     * Tehtävän lisääminen tietokantaan
+     * 
+     * saveTask() kutsuu silloin, kun tehtävällä ei vielä tietokannassa id:tä
+     * 
+     * @param task
+     * @return Onnistuiko
+     */
     private boolean insertTask(SqliteTask task) {
         try {
             PreparedStatement pstmt = storage.getConnection().prepareStatement("INSERT INTO Task (Date,Minutes,Description,Project) VALUES (?,?,?,?)");
@@ -76,6 +94,14 @@ public class SqliteProject extends AbstractProject {
         return false;
     }
 
+    /**
+     * Tehtävän päivittäminen tietokantaan
+     * 
+     * saveTask() kutsuu silloin, kun tehtävä on jo tietokannassa (id määritelty)
+     * 
+     * @param task
+     * @return Onnistuiko
+     */
     private boolean updateTask(SqliteTask task) {
         try {
             PreparedStatement pstmt = storage.getConnection().prepareStatement("UPDATE Task SET Date=?, Minutes=?, Description=? WHERE Id=?");
@@ -91,6 +117,12 @@ public class SqliteProject extends AbstractProject {
         }
     }
 
+    /**
+     * Tehtävän poistaminen tietokannasta
+     * 
+     * @param task
+     * @return Onnistuiko
+     */
     boolean deleteTask(SqliteTask task) {
         try {
             Statement stmt = storage.getConnection().createStatement();
