@@ -1,6 +1,6 @@
 # Käyttöohje
 
-Lataa tiedosto lasketunnit.jar
+Lataa tiedosto [lasketunnit.jar](https://github.com/artoh/ot-harjoitustyo/releases/download/v0.6/lasketunnit.jar)
 
 ## Konfigurointi
 
