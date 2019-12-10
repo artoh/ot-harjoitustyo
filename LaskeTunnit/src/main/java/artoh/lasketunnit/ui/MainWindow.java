@@ -133,7 +133,7 @@ public class MainWindow {
      */
     protected void createProject(ProjectInformation information) {
         service.getStorages().createProject(information);
-        service.refresh();
+        refresh();
     }
 
     /**

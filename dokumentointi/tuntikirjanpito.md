@@ -25,7 +25,9 @@ Päivä | Aika | Tehtävä
 09.12.2019 | 1.15 | Arkkitehtuuridokumentaation viimeistely
 09.12.2019 | 2.15 | Käyttöliittymän viimeistelyä
 10.12.2019 | 0.15 | Paketointi ja vaatimusmäärittelyn siivoaminen
-Yhteensä | 37.30 | 
+10.12.2019 | 1.15 | Muodoltaan virheellinen markdown-tiedoston käsittely ja testit, paketointi
+Yhteensä | 38.45 | 
+
 
 
 

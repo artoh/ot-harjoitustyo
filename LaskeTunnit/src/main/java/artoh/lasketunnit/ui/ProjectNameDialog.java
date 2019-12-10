@@ -11,9 +11,9 @@ import javafx.scene.layout.Region;
 
 /**
  * Uuden tai lisättävän projektin nimeä kysyvä dialogi
- * 
+ *
  * Projektia kysytään staattisella funktiolla getProjectName()
- * 
+ *
  * @author arto
  */
 public class ProjectNameDialog extends TextInputDialog {
@@ -23,19 +23,23 @@ public class ProjectNameDialog extends TextInputDialog {
         this.setHeaderText("Projektin nimi");
         this.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);        
     }
-    
+
     /**
      * Kysyy projektille nimeä
-     * 
+     *
      * @return Projektin nimi tai null, jos peruttu
      */
     public static String getProjectName() {
         ProjectNameDialog dialog = new ProjectNameDialog();
-        Optional<String> result = dialog.showAndWait();
-        if (!result.isPresent()) {
-            return null;
+        while (true) {
+            Optional<String> result = dialog.showAndWait();
+            if (!result.isPresent()) {
+                return null;
+            } else if (!dialog.getEditor().getText().isEmpty()) {
+                return dialog.getEditor().getText();
+            }
+            dialog.setHeaderText("Projektin nimi\nProjektin nimi ei saa olla tyhjä");
         }
-        return dialog.getEditor().getText();
     }
     
 }

@@ -15,6 +15,7 @@ import java.io.Reader;
 import java.io.Writer;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -51,6 +52,7 @@ public class MdFile {
     final static int BEFORE = 0;
     final static int ROWS = 1;
     final static int AFTER = 2;
+    final static int ERROR = 9;
 
     /**
      * Lataa md-tiedoston
@@ -69,6 +71,9 @@ public class MdFile {
             beforeTable = "";
             while ((row = breader.readLine()) != null) {
                 status = loadRow(row, status);
+                if (status == ERROR) {
+                    return false;
+                }
             }
             breader.close();
         } catch (IOException e) {
@@ -87,34 +92,54 @@ public class MdFile {
         }
     }
 
+    private int loadTableRow(String row) {
+        Matcher matcher = taskLinePattern.matcher(row);
+        if (matcher.matches()) {
+            return loadTaskRow(matcher.group(1), matcher.group(2), matcher.group(3));
+        } else {
+            if (row.startsWith("---")) {
+                return ROWS;
+            } else if (row.contains("|")) {
+                sumTitle = row.substring(0, row.indexOf("|") - 1);
+            }
+            return AFTER;
+        }
+    }
+
+    private int loadRowAfter(String row) {
+        if (row.contains("|")) {
+            return ERROR;
+        } else {
+            afterTable = afterTable + row + "\n";
+            return AFTER;
+        }
+    }
+
     private int loadRow(String row, int status) {
         if (status == BEFORE) {
             return loadRowBefore(row);
-        } else if (status == ROWS && !row.startsWith("---")) {
-            Matcher matcher = taskLinePattern.matcher(row);
-            if (matcher.matches()) {
-                loadTaskRow(matcher.group(1), matcher.group(2), matcher.group(3));
-            } else {
-                if (row.contains("|")) {
-                    sumTitle = row.substring(0, row.indexOf("|") - 1);
-                }
-                status = AFTER;
-            }
+        } else if (status == ROWS) {
+            return loadTableRow(row);
         } else if (status == AFTER) {
-            afterTable = afterTable + row + "\n";
+            return loadRowAfter(row);
         }
         return status;
     }
 
-    private void loadTaskRow(String date, String time, String description) {
+    private int loadTaskRow(String date, String time, String description) {
 
-        LocalDate localdate = LocalDate.parse(date, dateFormat);
-        int minutes = parseMinutes(time);
+        try {
+            LocalDate localdate = LocalDate.parse(date, dateFormat);
+            int minutes = parseMinutes(time);
 
-        Task task = project.createTask();
-        task.setDate(localdate);
-        task.setMinutes(minutes);
-        task.setDescription(description);
+            Task task = project.createTask();
+            task.setDate(localdate);
+            task.setMinutes(minutes);
+            task.setDescription(description);
+            return ROWS;
+        } catch (DateTimeParseException e) {
+            return ERROR;
+        }
     }
 
     private int parseMinutes(String txt) {

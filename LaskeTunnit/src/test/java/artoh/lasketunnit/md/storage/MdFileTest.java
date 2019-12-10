@@ -8,10 +8,12 @@ package artoh.lasketunnit.md.storage;
 import artoh.lasketunnit.service.ProjectInformation;
 import artoh.lasketunnit.service.Task;
 import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -34,6 +36,7 @@ public class MdFileTest {
     static final String SECONDFILENAME = "/tmp/lasketunnitstorage2.md";
     static final String SAVEFILENAME = "/tmp/lasketunnitstorage3.md";
     static final String SECONDSAVEFILENAME = "/tmp/lasketunnitstorage4.md";
+    static final String INCORRECTFILENAME = "/tmp/lasketunnitmdfiletest.md";
     
     public MdFileTest() {
         correctInformation = 
@@ -154,5 +157,42 @@ public class MdFileTest {
         assertTrue( contents.contains("Some footnote stay here."));
         
     }
+    
+    @Test
+    public void loadFailWhenIncorrectDatesInFile() throws FileNotFoundException, UnsupportedEncodingException, IOException {
+        OutputStream out = new FileOutputStream(INCORRECTFILENAME);
+        Writer writer = new OutputStreamWriter(out, "UTF-8");
+        BufferedWriter bwriter = new BufferedWriter(writer);
+        bwriter.write("# Some Incorrect Date \n\n");
+        bwriter.write("Date | Time spend | What I have done\n");
+        bwriter.write("-----|------------|-----------------\n");
+        bwriter.write("01.06.2019 | 3.30 | Started the job \n");
+        bwriter.write("18.17.2019 | 3,5 | More work \n");
+        bwriter.write("22.10.2019 | 1 | One Final Hour \n");
+        bwriter.write("Sum | 8.00 |  \n\n");
+        bwriter.close();    
+        
+        MdProject project = new MdProject( new ProjectInformation("Invalid dates","md",INCORRECTFILENAME));
+        assertFalse(project.load());
+    }
+    
+    @Test
+    public void loadFailWhenIncorrectFormatInFile() throws FileNotFoundException, UnsupportedEncodingException, IOException {
+        OutputStream out = new FileOutputStream(INCORRECTFILENAME);
+        Writer writer = new OutputStreamWriter(out, "UTF-8");
+        BufferedWriter bwriter = new BufferedWriter(writer);
+        bwriter.write("# Some Incorred Row \n\n");
+        bwriter.write("Date | Time spend | What I have done\n");
+        bwriter.write("-----|------------|-----------------\n");
+        bwriter.write("01.06.2019 | 3.30 | Started the job \n");
+        bwriter.write("8.7.2019 | 3,5 | More work \n");
+        bwriter.write("22.10.2019 | 1 | One Final Hour \n");
+        bwriter.write("Sum | 8.00 |  \n\n");
+        bwriter.close();    
+        
+        MdProject project = new MdProject( new ProjectInformation("Invalid format","md",INCORRECTFILENAME));
+        assertFalse(project.load());
+    }
+    
     
 }
