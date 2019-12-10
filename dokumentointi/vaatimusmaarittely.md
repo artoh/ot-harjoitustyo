@@ -13,27 +13,26 @@ Sovelluksessa on vain yksi käyttäjärooli (*käyttäjä*)
 
 Ohjelman pääikkunassa on taulukkoesitys tuntikirjanpidosta sekä mahdollisuudet suodattaa kirjauksia projektien mukaisesti.
 
-Tehtävän kirjaamiselle ja aikaseurannalle on oma näkymänsä (tai vaihtoehtoisesti tämäkin sijoitetaan samalle näytölle)
+Tehtävän kirjaamiselle ja aikaseurannalle on oma näkymänsä
 
 Apudialogeja tarvittaneen ainakin uuden projektin lisäämiselle.
 
-![Käyttöliittymä](kayttoliittyma.svg)
 
 ## Perusversion tarjoama toiminnallisuus
 
-- Kun ohjelma käynnistyy, luetaan kaikkien projektien työaikakirjanpidot ja niistä muodostetaan käyttäjälle esitettävä yhteenveto **tehty**
-- Käyttäjä voi tarkastella näkymää ajan mukaan **tehty** tai tarkastella yksittäisen projektin kirjauksia **tehty**
-- Käyttäjä voi lisätä projekteja (uusi työajanseuranta taikka olemassa olevan md-tiedoston tuominen) **tehty**
+- Kun ohjelma käynnistyy, luetaan kaikkien projektien työaikakirjanpidot ja niistä muodostetaan käyttäjälle esitettävä yhteenveto
+- Käyttäjä voi tarkastella näkymää ajan mukaan tai tarkastella yksittäisen projektin kirjauksia 
+- Käyttäjä voi lisätä projekteja (uusi työajanseuranta taikka olemassa olevan md-tiedoston tuominen) 
 - Tuntikirjanpidon voi tallentaa
-  - markdown-tiedostoksi **tehty**
-  - SQLite-tietokantaan **tehty**
+  - markdown-tiedostoksi
+  - SQLite-tietokantaan 
 
 - Käyttäjä tekee kirjauksen
-  - syöttämällä päivämäärän, tunnit ja tehtävän tai **tehty**
-  - käyttämällä ajanottopainikkeita **tehty** tai
-  - jatkamalla (muokkaamalla) aiempaa tehtävää **tehty**
+  - syöttämällä päivämäärän, tunnit ja tehtävän tai
+  - käyttämällä ajanottopainikkeita tai
+  - jatkamalla (muokkaamalla) aiempaa tehtävää
 
-- Käyttäjä voi korjata aiempia kirjauksia **tehty**
+- Käyttäjä voi korjata aiempia kirjauksia
 
 
 ## Jatkokehitysideoita
@@ -41,4 +40,4 @@ Apudialogeja tarvittaneen ainakin uuden projektin lisäämiselle.
 - vaihtoehtoisia tallennusbackendeja (csv, excel, Google Calendar API)
 - erilaiset ajankäytön raportit
 - mahdollisuus viedä projekti tallennusjärjestelmästä toiseen (esim. tuottaa tietokantaan tallennetusta projektista markdown-tiedosto)
-- integroitu git-asiakas, joka yhdistää committoimisen ja tehtävän kirjaamisen &#x263A
+- integroitu git-asiakas, joka yhdistää committoimisen ja tehtävän kirjaamisen :smiley:

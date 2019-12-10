@@ -1,8 +1,8 @@
 # LaskeTunnit
 
-Sovelluksen avulla käyttäjä voi pitää (esimerkiksi Ohjemistotekniikka-kurssilla vaadittua) työaikakirjanpitoa.
+Sovelluksen avulla käyttäjä voi pitää (esimerkiksi Ohjelmistotekniikka-kurssilla vaadittua) työaikakirjanpitoa.
 
-Sovellukseen on mahdollistaa toteuttaa tuki erilaisille tiedostomuodoille tai muille tallennusratkaisuille. Aluksi ohjelma tukee työaikakirjanpidon tallentamista markdown-muotoon ja sqlite-tietokantaan.
+Sovellukseen on mahdollistaa toteuttaa tuki erilaisille tiedostomuodoille tai muille tallennusratkaisuille. Ohjelma tukee työaikakirjanpidon tallentamista markdown-muotoon ja sqlite-tietokantaan.
 
 ![Ruutukaappaus](dokumentointi/kayttoohje/tehtavat.png)
 
@@ -16,7 +16,7 @@ Sovellukseen on mahdollistaa toteuttaa tuki erilaisille tiedostomuodoille tai mu
 
 ## Release
 
-- [Viikko 6](https://github.com/artoh/ot-harjoitustyo/releases/tag/v0.6)
+- [Viikko 6](https://github.com/artoh/ot-harjoitustyo/releases/tag/v0.6) Kaikki vaatimusmäärittelyn ominaisuudet tehty
 
 ## Komentorivitoiminnot
 
