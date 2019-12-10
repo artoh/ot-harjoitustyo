@@ -20,7 +20,7 @@ Käyttöliittymäkerrosta lukuunottamatta sovelluksen testikattavuus on 100 %.
 
 Sovelluksen järjestelmätestaus on suoritettu manuaalisesti.
 
-Kaikki määrittelydokumentin ja käyttöohjeen toiminnallisuudet on käyty läpi. Käyttöliittymä on suunniteltu sellaiseksi, ettei käyttäjän ole mahdollista aiheuttaa epäkelpoa syötettä (esimerkiksi kelvotonta päivämäärää tai tekstiä numerokenttään).
+Kaikki määrittelydokumentin ja käyttöohjeen toiminnallisuudet on käyty läpi.
 
 # Sovellukseen jääneet laatuongelmat
 
