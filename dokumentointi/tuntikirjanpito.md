@@ -24,7 +24,8 @@ Päivä | Aika | Tehtävä
 09.12.2019 | 0.30 | Käyttöohjeen kirjoittaminen
 09.12.2019 | 1.15 | Arkkitehtuuridokumentaation viimeistely
 09.12.2019 | 2.15 | Käyttöliittymän viimeistelyä
-Yhteensä | 37.15 | 
+10.12.2019 | 0.15 | Paketointi ja vaatimusmäärittelyn siivoaminen
+Yhteensä | 37.30 | 
 
 
 
