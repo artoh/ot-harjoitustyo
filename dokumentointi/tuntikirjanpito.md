@@ -8,7 +8,7 @@ Päivä | Aika | Tehtävä
 11.11.2019 | 2.00 | FileProjectList ja testit
 13.11.2019 | 5.30 | domain ja md.storage -koodausta ja testejä
 18.11.2019 | 0.45 | JavaFX aloitus ja README päivitys
-25.11.2019 | 4.15 | Storage ja TasksService koodaus, MainWindow aloitettu 
+25.11.2019 | 4.15 | Storage ja TasksService koodaus, MainWindow aloitettu
 26.11.2019 | 0.30 | Arkkitehtuurikuvaus
 26.11.2019 | 4.00 | Käyttöliittymän toteuttamista
 26.11.2019 | 0.30 | Testaamista ja siistimistä
@@ -25,26 +25,7 @@ Päivä | Aika | Tehtävä
 09.12.2019 | 1.15 | Arkkitehtuuridokumentaation viimeistely
 09.12.2019 | 2.15 | Käyttöliittymän viimeistelyä
 10.12.2019 | 0.15 | Paketointi ja vaatimusmäärittelyn siivoaminen
-10.12.2019 | 1.15 | Muodoltaan virheellinen markdown-tiedoston käsittely ja testit, paketointi
-Yhteensä | 38.45 | 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+10.12.2019 | 1.15 | Muodoltaan virheellisen markdown-tiedoston käsittely ja testit, paketointi
+17.12.2019 | 0.15 | Työhakemiston lukeminen ympäristömuuttujasta
+17.12.2019 | 1.00 | Lopputestaus, dokumentoinnin tarkastus ja paketointi
+Yhteensä | 40.00 |

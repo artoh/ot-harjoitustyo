@@ -55,7 +55,7 @@ Jos ohjelmaan lisättäisiin esim. tuki Google Kalenteriin tallentamiseen, lisä
 
 ![Luokkakaavio](luokkakaavio.svg)
 
-Luokkakaavioon ei ole piirretty SQLite-tallennuksen luokkia **lasketunnit.sqlite.storage.SqliteTask**, **lasketunnut.sqlite.storage.SqliteProject*, **lasketunnut.sqlite.storage.SqliteStorage** ja **lasketunnit.sqlite.ui.SqliteUi**.
+Luokkakaavioon ei ole piirretty SQLite-tallennuksen luokkia **lasketunnit.sqlite.storage.SqliteTask**, **lasketunnut.sqlite.storage.SqliteProject**, **lasketunnut.sqlite.storage.SqliteStorage** ja **lasketunnit.sqlite.ui.SqliteUi**.
 
 ## Käyttöliittymä
 
@@ -107,7 +107,8 @@ Jos tässä välissä on tekstiä, se säilytetään
 Päivä | Aika | Tehtävä
 ----|-----|-----------------------
 05.11.2019 | 0.30 | Ideointi ja vaatimusmäärittelyn aloittaminen
-11.11.2019 | 0.30 | Projektin luominen ja tutustuminen Yhteensä | 1.00 |
+11.11.2019 | 0.30 | Projektin luominen ja tutustuminen
+Yhteensä | 1.00 |
 
 Myös loppukaneetit säilytetään
 ```

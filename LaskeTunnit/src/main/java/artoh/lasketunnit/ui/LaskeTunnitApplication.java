@@ -29,6 +29,25 @@ public class LaskeTunnitApplication extends Application {
     Storages storages;
     TasksService service;
     ProjectMenuBuilder projectMenuBuilder;
+    String directoryPath;
+    
+    /**
+     * Lukee LASKETUNNIT_PATH-ympäristömuuttujan arvon tallennushakemiston
+     * poluksi
+     * 
+     * Jos muuttujaa ei ole määritelty, käytetään käynnistyshakemistoa.
+     * Jos muuttujan nimi ei pääty /-merkkiin, täydennetään polkua.
+     */
+    public void readDirectoryPathFromEnvironment() {
+        String path = System.getenv("LASKETUNNIT_PATH");
+        if  (path == null) {
+            directoryPath = "";
+        } else if(path.endsWith("/")){
+            directoryPath = path;
+        } else {
+            directoryPath = path + "/";
+        }
+    };
     
     @Override
     /**
@@ -39,7 +58,9 @@ public class LaskeTunnitApplication extends Application {
      */
     public void start(Stage window) {
         
-        ProjectList projectList = new FileProjectList("lasketunnit.ini");
+        readDirectoryPathFromEnvironment();
+        
+        ProjectList projectList = new FileProjectList(directoryPath + "lasketunnit.ini");
         storages = new Storages(projectList);
         projectMenuBuilder = new ProjectMenuBuilder();
         
@@ -62,7 +83,7 @@ public class LaskeTunnitApplication extends Application {
      */
     protected void registerComponents() {
         registerComponent(new MdStorage(), new MdUi());
-        registerComponent(new SqliteStorage("lasketunnit.sqlite"), new SqliteUi());
+        registerComponent(new SqliteStorage(directoryPath + "lasketunnit.sqlite"), new SqliteUi());
         
     }
     

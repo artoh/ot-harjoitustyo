@@ -24,6 +24,6 @@ Kaikki määrittelydokumentin ja käyttöohjeen toiminnallisuudet on käyty läp
 
 # Sovellukseen jääneet laatuongelmat
 
-Testejä ei ole siistitty/refaktoritu, eikä erottelu yksikkötesteihin ja integraatiotesteihin oikein käy ilmi ohjelmasta.
+Testejä ei ole siistitty/refaktoritu, eikä erottelu yksikkötesteihin ja integraatiotesteihin oikein käy ilmi ohjelmasta. Tapa käyttää testeissä /tmp-hakemistoa kovakoodatuilla tiedostonnimillä ei myöskään liene parhaiden käytäntöjen mukainen.
 
 Ohjelma ei anna käyttöliittymässä virheilmoitusta tilanteessa, jossa tallentaminen epäonnistuu esimerkiksi tietokannan vioittumisen takia.
