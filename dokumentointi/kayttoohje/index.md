@@ -1,10 +1,12 @@
 # Käyttöohje
 
-Lataa tiedosto [lasketunnit.jar](https://github.com/artoh/ot-harjoitustyo/releases/download/v0.6/lasketunnit.jar)
+Lataa tiedosto [lasketunnit.jar](https://github.com/artoh/ot-harjoitustyo/releases/download/v1.0/lasketunnit.jar)
 
 ## Konfigurointi
 
-Ohjelmaa ei tarvitse konfiguroida. Ohjelma sijoittaa seurattavien kirjanpitojen luettelon *lasketunnit.ini* sekä tietokantatiedoston *lasketunnit.sqlite* käynnistyshakemistoonsa.
+Ohjelmaa ei välttämättä tarvitse konfiguroida.
+
+Jos ympäristömuuttuja **LASKETUNNIT_PATH** on määritelty, sijoittaa ohjelma kirjanpitojen luettelon *lasketunnit.ini* sekä tietokantatiedoston *lasketunnit.sql* ympäristömuuttujan määrittelemään hakemistoon. Jos ympäristömuuttujaa ei ole määritelty, tiedostot sijoitetaan ohjelman käynnistyhakemistoon.
 
 ## Ohjelman käynnistäminen
 
@@ -57,4 +59,6 @@ Painamalla *Ota aikaa* -painiketta voit mitata taustalla tehtävään kuluvaa ai
 
 ## Tehtävien muokkaaminen
 
-Valitsemalla luettelosta tehtävät tulee valikkovalinta *Tehtävä | Muokkaa* aktiiviseksi.
+Valitsemalla luettelosta tehtävän tulee valikkovalinta *Tehtävä | Muokkaa* aktiiviseksi.
+
+Saat samanlaisen valintataulun kuin uutta tehtävää luotaessa. *Ok*-painike tallentaa muutokset.
