@@ -120,10 +120,9 @@ public class MdFile {
             return loadRowBefore(row);
         } else if (status == ROWS) {
             return loadTableRow(row);
-        } else if (status == AFTER) {
+        } else  {
             return loadRowAfter(row);
-        }
-        return status;
+        }        
     }
 
     private int loadTaskRow(String date, String time, String description) {

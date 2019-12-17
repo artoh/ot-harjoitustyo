@@ -49,7 +49,7 @@ public class TasksService {
     /**
      * Kaikki seurattavat projektit
      * 
-     * @return 
+     * @return Lista kaikista projekteista
      */
     public List<Project> allProjects() {
         return this.projects;
@@ -58,7 +58,7 @@ public class TasksService {
     /**
      * Kaikkien projektien kaikki tehtävät käänteisessä aikajärjestyksessä
      * 
-     * @return 
+     * @return Lista kaikista tehtävistä
      */
     public List<Task> allTasks() {
         List<Task> list = this.tasks;
@@ -70,7 +70,7 @@ public class TasksService {
     
     /**
      * Tallennukseen käytettävä Storage-olio
-     * @return 
+     * @return Storage-olio
      */
     public Storages getStorages() {
         return storages;

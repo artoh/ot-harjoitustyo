@@ -30,7 +30,7 @@ public interface Storage {
      * Luo uuden projektin 
      * 
      * @param information Projektia kuvaava informaatio
-     * @return 
+     * @return Luotu projekti
      */
     public Project createProject(ProjectInformation information);
     
@@ -38,7 +38,7 @@ public interface Storage {
      * Lataa olemassaolevan projektin 
      * 
      * @param information Projektia kuvaava informaatio
-     * @return 
+     * @return Ladattu projekti
      */
     public Project loadProject(ProjectInformation information);
     
@@ -46,7 +46,7 @@ public interface Storage {
      * Poistaa projektin pysyvästi
      * 
      * @param information Projektia kuvaava informaatio
-     * @return 
+     * @return Onnistuiko
      */
     public boolean deleteProject(ProjectInformation information);
 }

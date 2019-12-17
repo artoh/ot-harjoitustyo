@@ -72,7 +72,7 @@ public interface Task {
     
     /**
      * Palauttaa päivämäärän paikallisessa muodossa
-     * @return 
+     * @return Päivämäärän sisältävä merkkijono muodossa 31.12.2019
      */
     String getDateString();
     

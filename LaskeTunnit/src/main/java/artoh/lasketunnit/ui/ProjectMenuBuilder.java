@@ -50,7 +50,7 @@ public class ProjectMenuBuilder {
      * 
      * @param stage Stage, joka uusien ikkunoiden vanhempana
      * @param mainWindow MainWindow-olio
-     * @return 
+     * @return Projekti-valikko
      */
     public Menu build(Stage stage, MainWindow mainWindow) {
         Menu projectMenu = new Menu("Projekti");

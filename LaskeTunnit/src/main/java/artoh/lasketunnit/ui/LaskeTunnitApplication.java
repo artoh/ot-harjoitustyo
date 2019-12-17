@@ -14,101 +14,102 @@ import javafx.stage.Stage;
 
 /**
  * Ohjelman pääluokka
- * 
- * Ohjelman käynnistyessä ohjelman eri komponentit otetaan käyttöön, ja
- * sen jälkeen alustetaan ohjelman käyttöliittymä.
- * 
- * Kun ohjelmaan lisätään tallennuksen taustajärjestelmiä, rekisteröidään
- * ne käytettäväksi registerCompnents()-metodissa.
- * 
- * 
+ *
+ * Ohjelman käynnistyessä ohjelman eri komponentit otetaan käyttöön, ja sen
+ * jälkeen alustetaan ohjelman käyttöliittymä.
+ *
+ * Kun ohjelmaan lisätään tallennuksen taustajärjestelmiä, rekisteröidään ne
+ * käytettäväksi registerCompnents()-metodissa.
+ *
+ *
  * @author arto
  */
 public class LaskeTunnitApplication extends Application {
-    
+
     Storages storages;
     TasksService service;
     ProjectMenuBuilder projectMenuBuilder;
     String directoryPath;
-    
+
     /**
      * Lukee LASKETUNNIT_PATH-ympäristömuuttujan arvon tallennushakemiston
      * poluksi
-     * 
-     * Jos muuttujaa ei ole määritelty, käytetään käynnistyshakemistoa.
-     * Jos muuttujan nimi ei pääty /-merkkiin, täydennetään polkua.
+     *
+     * Jos muuttujaa ei ole määritelty, käytetään käynnistyshakemistoa. Jos
+     * muuttujan nimi ei pääty /-merkkiin, täydennetään polkua.
      */
     public void readDirectoryPathFromEnvironment() {
         String path = System.getenv("LASKETUNNIT_PATH");
-        if  (path == null) {
+        if (path == null) {
             directoryPath = "";
-        } else if(path.endsWith("/")){
+        } else if (path.endsWith("/")) {
             directoryPath = path;
         } else {
             directoryPath = path + "/";
         }
-    };
+    }
+
+    ;
     
     @Override
     /**
      * Ohjelman käynnistystoimet
-     * 
+     *
      * Ottaa ohjelman eri komponentit käyttöön ja muodostaa käyttöliittymän
-     * 
+     *
      */
     public void start(Stage window) {
-        
+
         readDirectoryPathFromEnvironment();
-        
+
         ProjectList projectList = new FileProjectList(directoryPath + "lasketunnit.ini");
         storages = new Storages(projectList);
         projectMenuBuilder = new ProjectMenuBuilder();
-        
+
         registerComponents();
-        
+
         service = new TasksService(storages);
         service.refresh();
-        
+
         MainWindow mainWindow = new MainWindow(service, projectMenuBuilder);
-        mainWindow.init(window);        
+        mainWindow.init(window);
 
     }
-    
+
     /**
      * Rekisteröi tallennusjärjestelmät
-     * 
-     * Kun ohjelmaan lisätään uusi tallennusjärjestelmä, rekisteröidään
-     * se käyttöön tässä metodissa - muita muutoksia olemassa olevaan 
+     *
+     * Kun ohjelmaan lisätään uusi tallennusjärjestelmä, rekisteröidään se
+     * käyttöön tässä metodissa - muita muutoksia olemassa olevaan
      * ohjelmakoodiin ei tarvita.
      */
     protected void registerComponents() {
         registerComponent(new MdStorage(), new MdUi());
         registerComponent(new SqliteStorage(directoryPath + "lasketunnit.sqlite"), new SqliteUi());
-        
+
     }
-    
+
     /**
      * Rekisteröi tallennusjärjestelmän
-     * 
+     *
      * @param storage Tiedostojen käsittelyn Storage-luokka
-     * @param ui Käyttöliittymätoimintojen StoragaUi-luokka 
+     * @param ui Käyttöliittymätoimintojen StoragaUi-luokka
      */
     protected void registerComponent(Storage storage, StorageUi ui) {
         storages.registerStorage(storage);
         projectMenuBuilder.registerStorageUi(ui);
     }
-    
+
     /**
      * Ohjelman käynnistävä metodi
-     * 
-     * JavaFX-yhteensopivuuden takia ohjelmassa on erikseen Main-luokka
-     * ohjelman käynistämistä varten. Main-luokka kutsuu tätä
-     * metodia.
-     * 
-     * @param args 
+     *
+     * JavaFX-yhteensopivuuden takia ohjelmassa on erikseen Main-luokka ohjelman
+     * käynistämistä varten. Main-luokka kutsuu tätä metodia.
+     *
+     * @param args
      */
-    public static void main(String[] args) {        
-               
+    public static void main(String[] args) {
+
         launch(LaskeTunnitApplication.class);
     }
 }

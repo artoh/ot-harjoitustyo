@@ -65,7 +65,7 @@ public interface StorageUi {
      * ohjelmallisesti), palautetaan false, eikä tätä järjestelmää näytetä
      * Uusi projekti -valikossa
      * 
-     * @return 
+     * @return Tosi jos sisällytetään
      */
     public boolean allowCreate();
     
@@ -76,7 +76,7 @@ public interface StorageUi {
      * vain tämän ohjelman kautta, voidaan tässä palauttaa false, jolloin
      * tätä järjestelmää ei näytetä Avaa ja tuo -valikossa
      * 
-     * @return 
+     * @return Tosi jos voidaan
      */
     
     public boolean allowAdd();

@@ -29,7 +29,7 @@ public class Storages {
      * Lisää olemassaolevan projektin seurantaan
      * 
      * @param info Projektia kuvaava informaatio
-     * @return 
+     * @return Lisätty projekti
      */
     public Project addProject(ProjectInformation info) {
         Storage storage = getStorage(info.getStorageId());
@@ -49,7 +49,7 @@ public class Storages {
      * Luo uuden projektin
      * 
      * @param info Projektia kuvaava informaatio
-     * @return 
+     * @return Luotu projekti
      */
     public Project createProject(ProjectInformation info) {
         Storage storage = getStorage(info.getStorageId());
@@ -69,7 +69,7 @@ public class Storages {
      * Poistaa projektin
      * 
      * @param info Projektia kuvaava informaatio
-     * @return 
+     * @return Onnistuiko poistaminen
      */
     public boolean removeProject(ProjectInformation info) {
         Storage storage = getStorage(info.getStorageId());
@@ -83,10 +83,10 @@ public class Storages {
     
     /**
      * Piilottaa projektin luettelosta. Projektin kirjanpitoa
-     * ei poisteta.
+     * ei poisteta
      * 
      * @param info Projektia kuvaava informaatio.
-     * @return 
+     * @return Onnistuiko
      */
     public boolean hideProject(ProjectInformation info) {
         return projectList.removeProject(info);
@@ -95,7 +95,7 @@ public class Storages {
     /**
      * Listaa kaikki seurattavat projektit 
      * 
-     * @return 
+     * @return Lista kaikista projekteista
      */    
     public List<Project> allProjects() {
         List<Project> list = new ArrayList<>();

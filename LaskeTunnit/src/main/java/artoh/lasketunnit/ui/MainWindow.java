@@ -351,7 +351,7 @@ public class MainWindow {
      * poistaminen
      *
      * @param stage
-     * @return
+     * @return Projektivalikko
      */
     protected Menu createProjectMenu(Stage stage) {
         Menu projectMenu = projectMenuBuilder.build(stage, this);

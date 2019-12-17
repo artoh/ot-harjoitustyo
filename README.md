@@ -14,9 +14,11 @@ Sovellukseen on mahdollistaa toteuttaa tuki erilaisille tiedostomuodoille tai mu
 - [Työaikakirjanpito](dokumentointi/tuntikirjanpito.md)
 - [Testausdokumentti](dokumentointi/testaus.md)
 
-## Release
+## Releaset
 
-- [Viikko 6](https://github.com/artoh/ot-harjoitustyo/releases/tag/v0.6) Kaikki vaatimusmäärittelyn ominaisuudet tehty
+- [Loppupalautus](https://github.com/artoh/ot-harjoitustyo/releases/tag/v1.0)
+- [Viikko 6](https://github.com/artoh/ot-harjoitustyo/releases/tag/v0.6) 
+- [Viikko 5](https://github.com/artoh/ot-harjoitustyo/releases/tag/v0.5-devel)
 
 ## Komentorivitoiminnot
 
